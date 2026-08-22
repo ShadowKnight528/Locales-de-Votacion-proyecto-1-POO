@@ -4,14 +4,11 @@ import java.util.Vector;
 
 public class SistemaDeAsignacion {
 	
-	public boolean asignarMesa(Votante votante, Sede sede) {
+	private boolean asignarMesa(Votante votante, Sede sede) {
 		HashMap<Integer, Mesa> mapaMesas = sede.getMapaMesas();
 		for (Mesa mesa : mapaMesas.values()) {
-			int tamListaVotantes = mesa.getListaVotantes().size();
-			if (tamListaVotantes < mesa.getCapMax()) {
-				if (mesa.agregarVotante(votante) == true) {
-					return true;
-				}
+			if (mesa.agregarVotante(votante) == true) {
+				return true;
 			}
 		}
 		return false;
