@@ -8,8 +8,12 @@ public class Sede {
 	private Coordenadas ubicacion;
 	private Mesa[] arregloMesas; // Despues decidir si se quedara como arreglo o como lista
 	
-	public Sede() {
-		
+	public Sede(int id, int capMax, Coordenadas ubicacion, Mesa[] arregloMesas) {
+		setId(id);
+		setCapMax(capMax);
+		this.estado = "Capacidad Disponible";
+		setUbicacion(ubicacion);
+		setArregloMesas(arregloMesas);
 	}
 	
 	public void setId(int id) {
@@ -33,11 +37,19 @@ public class Sede {
 	}
 	
 	public void setUbicacion(Coordenadas ubicacion) {
-		this.ubicacion = ubicacion;
+		if (ubicacion == null) {
+			System.out.println("Ubicacion no valida");
+		} else {
+			this.ubicacion = ubicacion;
+		}
 	}
 	
 	public void setArregloMesas(Mesa[] arregloMesas) {
-		this.arregloMesas = arregloMesas;
+		if (arregloMesas == null) {
+			System.out.println("Arreglo no valido");
+		} else {
+			this.arregloMesas = arregloMesas;
+		}
 	}
 	
 	public int getId() {
