@@ -16,7 +16,11 @@ public class Votante extends Ciudadano {
 	}
 	
 	public void setResidencia(Coordenadas residencia) {
-		this.residencia = residencia;
+		if (residencia == null) {
+			System.out.println("Residencia invalida");
+		} else {
+			this.residencia = residencia;
+		}
 	}
 	
 	
