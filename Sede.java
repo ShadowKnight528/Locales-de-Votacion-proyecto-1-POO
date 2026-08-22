@@ -5,6 +5,7 @@ public class Sede {
 	
 	private int id;
 	private int capMax;
+	private int cuposDisponibles;
 	private String estado;
 	private Coordenadas ubicacion;
 	private HashMap<Integer, Mesa> mapaMesas;
@@ -12,6 +13,7 @@ public class Sede {
 	public Sede(int id, int capMax, Coordenadas ubicacion, HashMap<Integer, Mesa> mapaMesas) {
 		setId(id);
 		setCapMax(capMax);
+		cuposDisponibles = this.capMax;
 		this.estado = "Capacidad Disponible";
 		setUbicacion(ubicacion);
 		setMapaMesas(mapaMesas);
@@ -30,6 +32,14 @@ public class Sede {
 			System.out.println("Capacidad no valida");
 		} else {
 			this.capMax = capMax;
+		}
+	}
+	
+	public void setCuposDisponibles(int cuposDisponibles) {
+		if (cuposDisponibles < 0 || cuposDisponibles > capMax) {
+			System.out.println("Cantidad ingresada no valida");
+		} else {
+			this.cuposDisponibles = cuposDisponibles;
 		}
 	}
 	
@@ -59,6 +69,10 @@ public class Sede {
 	
 	public int getCapMax() {
 		return capMax;
+	}
+	
+	public int getCuposDisponibles() {
+		return cuposDisponibles;
 	}
 	
 	public String getEstado() {
