@@ -63,4 +63,13 @@ public class Mesa {
 	public HashMap<String, Integer> getConteoVotos(){
 		return conteoVotos;
 	}
+	
+	public boolean agregarVotante(Votante votante) {
+		if (listaVotantes.size() < capMax) {
+			listaVotantes.add(votante);
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
