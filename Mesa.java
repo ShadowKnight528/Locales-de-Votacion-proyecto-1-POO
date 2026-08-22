@@ -5,13 +5,13 @@ public class Mesa {
 	
 	private int numeroMesa;
 	private int capMax;
-	private Votante[] arregloVotantes; // Decidir despues si se quedara asi o como ArrayList
+	private Votante[] arregloVotantes;
 	private HashMap<String, Integer> conteoVotos;
 	
-	public Mesa(int numeroMesa, int capMax, Votante[] arregloVotantes, HashMap<String, Integer> conteoVotos) {
+	public Mesa(int numeroMesa, int capMax, HashMap<String, Integer> conteoVotos) {
 		setNumeroMesa(numeroMesa);
 		setCapMax(capMax);
-		setArregloVotantes(arregloVotantes);
+		this.arregloVotantes = new Votante[capMax]; 
 		setConteoVotos(conteoVotos);
 	}
 	
