@@ -76,4 +76,8 @@ public class Sede {
 	public HashMap<Integer, Mesa> getMapaMesas() {
 		return mapaMesas;
 	}
+	
+	public void decrementarCuposDisponibles() {
+		cuposDisponibles--;
+	}
 }
