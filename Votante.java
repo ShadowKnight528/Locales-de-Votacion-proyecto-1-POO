@@ -3,16 +3,22 @@ package package_00;
 public class Votante extends Ciudadano {
 	
 	private boolean estadoVoto;
+	private boolean tieneMesa;
 	private Coordenadas residencia;
 	
 	public Votante(String rut, String nombre, Coordenadas residencia) {
 		super(rut, nombre);
 		setEstadoVoto(false);
+		setTieneMesa(false);
 		setResidencia(residencia);
 	}
 	
 	public void setEstadoVoto(boolean estadoVoto) {
 		this.estadoVoto = estadoVoto;
+	}
+	
+	public void setTieneMesa(boolean tieneMesa) {
+		this.tieneMesa = tieneMesa;
 	}
 	
 	public void setResidencia(Coordenadas residencia) {
@@ -23,9 +29,12 @@ public class Votante extends Ciudadano {
 		}
 	}
 	
-	
 	public boolean getEstadoVoto() {
 		return estadoVoto;
+	}
+	
+	public boolean getTieneMesa() {
+		return tieneMesa;
 	}
 	
 	public Coordenadas getResidencia() {
