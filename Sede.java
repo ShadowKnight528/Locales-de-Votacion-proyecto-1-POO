@@ -1,4 +1,5 @@
 package package_00;
+import java.util.HashMap;
 
 public class Sede {
 	
@@ -6,14 +7,14 @@ public class Sede {
 	private int capMax;
 	private String estado;
 	private Coordenadas ubicacion;
-	private Mesa[] arregloMesas; // Despues decidir si se quedara como arreglo o como lista
+	private HashMap<Integer, Mesa> mapaMesas;
 	
-	public Sede(int id, int capMax, Coordenadas ubicacion, Mesa[] arregloMesas) {
+	public Sede(int id, int capMax, Coordenadas ubicacion, HashMap<Integer, Mesa> mapaMesas) {
 		setId(id);
 		setCapMax(capMax);
 		this.estado = "Capacidad Disponible";
 		setUbicacion(ubicacion);
-		setArregloMesas(arregloMesas);
+		setMapaMesas(mapaMesas);
 	}
 	
 	public void setId(int id) {
@@ -44,11 +45,11 @@ public class Sede {
 		}
 	}
 	
-	public void setArregloMesas(Mesa[] arregloMesas) {
-		if (arregloMesas == null) {
-			System.out.println("Arreglo no valido");
+	public void setMapaMesas(HashMap<Integer, Mesa> mapaMesas) {
+		if (mapaMesas == null) {
+			System.out.println("Coleccion no valida");
 		} else {
-			this.arregloMesas = arregloMesas;
+			this.mapaMesas = mapaMesas;
 		}
 	}
 	
@@ -68,7 +69,7 @@ public class Sede {
 		return ubicacion;
 	}
 	
-	public Mesa[] getArregloMesas() {
-		return arregloMesas;
+	public HashMap<Integer, Mesa> getMapaMesas() {
+		return mapaMesas;
 	}
 }
