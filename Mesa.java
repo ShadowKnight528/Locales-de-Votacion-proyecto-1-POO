@@ -1,17 +1,18 @@
 package package_00;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Mesa {
 	
 	private int numeroMesa;
 	private int capMax;
-	private Votante[] arregloVotantes;
+	private ArrayList<Votante> listaVotantes;
 	private HashMap<String, Integer> conteoVotos;
 	
 	public Mesa(int numeroMesa, int capMax, HashMap<String, Integer> conteoVotos) {
 		setNumeroMesa(numeroMesa);
 		setCapMax(capMax);
-		this.arregloVotantes = new Votante[capMax]; 
+		this.listaVotantes = new ArrayList<Votante>(); 
 		setConteoVotos(conteoVotos);
 	}
 	
@@ -31,11 +32,11 @@ public class Mesa {
 		}
 	}
 	
-	public void setArregloVotantes(Votante[] arregloVotantes) {
-		if (arregloVotantes == null) {
+	public void setListaVotantes(ArrayList<Votante> listaVotantes) {
+		if (listaVotantes == null) {
 			System.out.println("Valor invalido");
 		} else {
-			this.arregloVotantes = arregloVotantes;
+			this.listaVotantes = listaVotantes;
 		}
 	}
 	
@@ -55,8 +56,8 @@ public class Mesa {
 		return capMax;
 	}
 	
-	public Votante[] getArregloVotantes() {
-		return arregloVotantes;
+	public ArrayList<Votante> getListaVotantes() {
+		return listaVotantes;
 	}
 	
 	public HashMap<String, Integer> getConteoVotos(){
