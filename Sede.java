@@ -6,7 +6,6 @@ public class Sede {
 	private int id;
 	private int capMax;
 	private int cuposDisponibles;
-	private String estado;
 	private Coordenadas ubicacion;
 	private HashMap<Integer, Mesa> mapaMesas;
 	
@@ -14,7 +13,6 @@ public class Sede {
 		setId(id);
 		setCapMax(capMax);
 		cuposDisponibles = this.capMax;
-		this.estado = "Capacidad Disponible";
 		setUbicacion(ubicacion);
 		setMapaMesas(mapaMesas);
 	}
@@ -43,10 +41,6 @@ public class Sede {
 		}
 	}
 	
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-	
 	public void setUbicacion(Coordenadas ubicacion) {
 		if (ubicacion == null) {
 			System.out.println("Ubicacion no valida");
@@ -73,10 +67,6 @@ public class Sede {
 	
 	public int getCuposDisponibles() {
 		return cuposDisponibles;
-	}
-	
-	public String getEstado() {
-		return estado;
 	}
 	
 	public Coordenadas getUbicacion() {
