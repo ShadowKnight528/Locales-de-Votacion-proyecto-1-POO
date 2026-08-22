@@ -31,4 +31,18 @@ public class Votante extends Ciudadano {
 	public Coordenadas getResidencia() {
 		return residencia;
 	}
+	
+	public double calcularDistanciaASede(Sede sede) {
+		if (sede == null || sede.getUbicacion() == null || this.residencia == null) {
+			return -1;
+		}
+		Coordenadas ubicacionSede = sede.getUbicacion();
+		double componenteXSede = ubicacionSede.getX();
+		double componenteYSede = ubicacionSede.getY();
+		double componenteXVotante = residencia.getX();
+		double componenteYVotante = residencia.getY();
+		double aux = Math.pow(componenteXVotante -  componenteXSede, 2) + Math.pow(componenteYVotante -  componenteYSede, 2);
+		double distancia = Math.sqrt(aux);
+		return distancia;
+	}
 }
