@@ -25,4 +25,8 @@ public class Ciudadano {
 	public String getNombre() {
 		return nombre;
 	}
+	
+	public String obtenerDatos() {
+		return "RUT: " + rut + " " + "Nombre: " + nombre;
+	}
 }
