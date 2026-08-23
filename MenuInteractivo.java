@@ -79,4 +79,35 @@ public class MenuInteractivo {
 			return sede.getMapaMesas().get(numeroMesa);
 		}
 	}
+	
+	public Votante eliminarVotanteDeMesa(String rut, Mesa mesa) {
+		if (rut == null || mesa == null || mesa.getListaVotantes() == null) {
+			System.out.println("La mesa o el rut ingresados no existen, o bien la mesa no cuenta con votantes asignados");
+			return null;
+		} else {
+			Votante eliminado = buscarVotanteEnMesa(rut, mesa);
+			if (eliminado == null) {
+				System.out.println("El rut ingresado no corresponde a un votante asignado a esta mesa");
+			} else {
+				mesa.getListaVotantes().remove(eliminado);
+				System.out.println("El votante ha sido eliminado con exito de la lista de votantes de la mesa seleccionada");
+			}
+			return eliminado;
+		}
+	}
+	public Mesa eliminarMesaDeSede(int numeroMesa, Sede sede) {
+		if (sede == null || sede.getMapaMesas() == null) {
+			System.out.println("La sede ingresada no existe o bien no cuenta con mesas disponibles");
+			return null;
+		} else {
+			Mesa eliminada = buscarMesaEnSede(numeroMesa, sede);
+			if (eliminada == null) {
+				System.out.println("El numero de mesa ingresado no corresponde a una mesa de la sede");
+			} else {
+				sede.getMapaMesas().remove(numeroMesa, eliminada);
+				System.out.println("La mesa ha sido eliminada con exito");
+			}
+			return eliminada;
+		}
+	}
 }
