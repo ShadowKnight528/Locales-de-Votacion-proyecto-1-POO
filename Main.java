@@ -99,7 +99,7 @@ public class Main {
 				System.out.println("Lista de votantes de la mesa " + mesaActual.getNumeroMesa() + " :" );
 				System.out.println(" ");
 				for (Votante votante : listaVotantesMesaActual) {
-					System.out.println("RUT: " + votante.getRut() + " Nombre: " + votante.getNombre() + " (" + votante.getResidencia().getX() + ", " + votante.getResidencia().getY() + ")");
+					System.out.println(votante.obtenerDatos() + " (" + votante.getResidencia().getX() + ", " + votante.getResidencia().getY() + ")");
 				}
 			}
 		}
