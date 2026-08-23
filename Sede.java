@@ -49,6 +49,15 @@ public class Sede {
 		}
 	}
 	
+	public void setUbicacion(double x, double y) {
+		if (ubicacion == null) {
+			ubicacion = new Coordenadas(x, y);
+		} else {
+			ubicacion.setX(x);
+			ubicacion.setY(y);
+		}
+	}
+	
 	public void setMapaMesas(HashMap<Integer, Mesa> mapaMesas) {
 		if (mapaMesas == null) {
 			System.out.println("Coleccion no valida");
