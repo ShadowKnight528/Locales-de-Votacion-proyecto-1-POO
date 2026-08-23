@@ -89,4 +89,33 @@ public class Sede {
 	public void decrementarCuposDisponibles() {
 		cuposDisponibles--;
 	}
+	
+	public int sumarCapacidadMesa() {
+		int suma = 0;
+		if (mapaMesas == null) {
+			return suma;
+		} else {
+			for (Mesa mesa : mapaMesas.values()) {
+				if (mesa != null) {
+					suma += mesa.getCapMax();
+				}
+			}
+			return suma;
+		}
+	}
+	
+	public void agregarMesa(Mesa mesa) {
+		if (mesa == null || (sumarCapacidadMesa() + mesa.getCapMax()) > capMax) {
+			System.out.println("La mesa ingresada no existe o la capacidad maxima de la mesa excede la capacidad maxima de la sede");
+		} else {
+			if (mapaMesas == null) {
+				mapaMesas = new HashMap<Integer, Mesa>();
+				mapaMesas.put(mesa.getNumeroMesa(), mesa);
+				return;
+			} else {
+				mapaMesas.put(mesa.getNumeroMesa(), mesa);
+				return;
+			}
+		}
+	}
 }
