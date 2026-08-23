@@ -56,4 +56,27 @@ public class MenuInteractivo {
 			}
 		}
 	}
+	
+	public Votante buscarVotanteEnMesa(String rut, Mesa mesa) {
+		if (mesa == null || mesa.getListaVotantes() == null || rut == null) {
+			System.out.println("La mesa ingresada no existe, la mesa no tiene votantes asignados, o bien el rut ingresado no es valido");
+			return null;
+		} else {
+			for (Votante votante : mesa.getListaVotantes()) {
+				if ((votante.getRut().equals(rut)) == true) {
+					return votante;
+				}
+			}
+			return null;
+		}
+	}
+	
+	public Mesa buscarMesaEnSede(int numeroMesa, Sede sede) {
+		if (sede == null || sede.getMapaMesas() == null) {
+			System.out.println("La sede ingresada no existe, o bien no tiene mesas disponibles");
+			return null;
+		} else {
+			return sede.getMapaMesas().get(numeroMesa);
+		}
+	}
 }
