@@ -16,4 +16,9 @@ public class Candidato extends Ciudadano {
 	public String getPartido() {
 		return partido;
 	}
+	
+	@Override
+	public String obtenerDatos() {
+		return super.obtenerDatos() + " Partido: " + partido;
+	}
 }
