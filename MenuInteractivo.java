@@ -189,4 +189,27 @@ public class MenuInteractivo {
 			return;
 		}
 	}
+	
+	public void modificarCapMaxMesa(int numeroMesa, Sede sede, int nuevaCapMax) {
+		if (sede == null || sede.getMapaMesas() == null) {
+			System.out.println("La sede ingresada no existe, o bien no tiene mesas disponibles");
+			return;
+		} else {
+			Mesa mesaAModificarCapMax = buscarMesaEnSede(numeroMesa, sede);
+			if (mesaAModificarCapMax == null) {
+				System.out.println("El numero de mesa ingresado no hace referencia a ninguna mesa de la sede");
+			} else {
+				int auxCapMax = mesaAModificarCapMax.getCapMax();
+				mesaAModificarCapMax.setCapMax(nuevaCapMax);
+				if (sede.sumarCapacidadMesa() > sede.getCapMax()) {
+					System.out.println("La nueva capacidad maxima de la mesa excede la capacidad maxima de la sede");
+					mesaAModificarCapMax.setCapMax(auxCapMax);
+					return;
+				} else {
+					System.out.println("La capacidad maxima de la mesa ha sido modificada con exito");
+					return;
+				}
+			}
+		}
+	}
 }
