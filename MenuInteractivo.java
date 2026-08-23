@@ -110,4 +110,83 @@ public class MenuInteractivo {
 			return eliminada;
 		}
 	}
+	
+	public void modificarNombreVotante(String rut, Mesa mesa, String nuevoNombre) {
+		if (mesa == null || mesa.getListaVotantes() == null || rut == null || nuevoNombre == null) {
+			System.out.println("La mesa ingresada no existe o bien no tiene votantes asignados, el rut ingresado no es valido, o el nuevo nombre tampoco");
+		} else {
+			Votante votanteAModificarNombre = buscarVotanteEnMesa(rut, mesa);
+			if (votanteAModificarNombre == null) {
+				System.out.println("El rut ingresado no corresponde a un votante asignado a esta mesa");
+				return;
+			} else {
+				votanteAModificarNombre.setNombre(nuevoNombre);
+				System.out.println("Nombre actualizado con exito");
+				return;
+			}
+		}
+	}
+	
+	public void modificarNombreVotante(Votante votante, String nuevoNombre) {
+		if (votante == null || nuevoNombre == null) {
+			System.out.println("El votante no existe o bien el nuevo nombre no es valido");
+			return;
+		} else {
+			votante.setNombre(nuevoNombre);
+			System.out.println("Nombre actualizado con exito");
+			return;
+		}
+	}
+	
+	public void modificarResidenciaVotante(String rut, Mesa mesa, Coordenadas nuevoDomicilio) {
+		if (mesa == null || mesa.getListaVotantes() == null || rut == null || nuevoDomicilio == null) {
+			System.out.println("La mesa no existe o no cuenta con votantes asignados, el rut ingresado no es valido, o el domicilio ingresado no existe");
+			return;
+		} else {
+			Votante votanteAModificarDomicilio = buscarVotanteEnMesa(rut, mesa);
+			if (votanteAModificarDomicilio == null) {
+				System.out.println("El rut ingresado no corresponde a un votante asignado a esta mesa");
+				return;
+			} else {
+				votanteAModificarDomicilio.setResidencia(nuevoDomicilio);
+				return;
+			}
+		}
+	}
+	
+	public void modificarResidenciaVotante(String rut, Mesa mesa, double xNuevoDomicilio, double yNuevoDomicilio) {
+		if (mesa == null || mesa.getListaVotantes() == null || rut == null) {
+			System.out.println("La mesa no existe o no cuenta con votantes asignados, o bien el rut ingresado no es valido");
+			return;
+		} else {
+			Votante votanteAModificarDomicilio = buscarVotanteEnMesa(rut, mesa);
+			if (votanteAModificarDomicilio == null) {
+				System.out.println("El rut ingresado no corresponde a un votante asignado a esta mesa");
+				return;
+			} else {
+				votanteAModificarDomicilio.setResidencia(xNuevoDomicilio, yNuevoDomicilio);
+				return;
+			}
+		}
+	}
+	
+	public void modificarResidenciaVotante(Votante votante, Coordenadas nuevoDomicilio) {
+		if (votante == null || nuevoDomicilio == null) {
+			System.out.println("El votante o el nuevo domicilio ingresados no existen");
+			return;
+		} else {
+			votante.setResidencia(nuevoDomicilio);
+			return;
+		}
+	}
+	
+	public void modificarResidenciaVotante(Votante votante, double xNuevoDomicilio, double yNuevoDomicilio) {
+		if (votante == null) {
+			System.out.println("El votante ingresado no existe");
+			return;
+		} else {
+			votante.setResidencia(xNuevoDomicilio, yNuevoDomicilio);
+			return;
+		}
+	}
 }
