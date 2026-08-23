@@ -29,6 +29,15 @@ public class Votante extends Ciudadano {
 		}
 	}
 	
+	public void setResidencia(double x, double y) {
+		if (residencia == null) {
+			residencia = new Coordenadas(x, y);
+		} else {
+			residencia.setX(x);
+			residencia.setY(y);
+		}
+	}
+	
 	public boolean getEstadoVoto() {
 		return estadoVoto;
 	}
