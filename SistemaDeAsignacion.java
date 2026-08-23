@@ -8,6 +8,7 @@ public class SistemaDeAsignacion {
 		HashMap<Integer, Mesa> mapaMesas = sede.getMapaMesas();
 		for (Mesa mesa : mapaMesas.values()) {
 			if (mesa.agregarVotante(votante) == true) {
+				votante.setTieneMesa(true);
 				return true;
 			}
 		}
@@ -15,6 +16,10 @@ public class SistemaDeAsignacion {
 	}
 	
 	public void asignarSede(Votante votante, Vector<Sede> vectorSedes) {
+		if (votante == null || votante.getTieneMesa() == true) {
+			System.out.println("El votante ya tiene una mesa asignada o el votante no existe");
+			return;
+		}
 		double menorDistancia = 0;
 		Sede sedeMenorDistancia = null;
 		int aux = 0;
