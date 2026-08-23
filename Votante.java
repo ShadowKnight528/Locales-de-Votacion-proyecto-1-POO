@@ -63,4 +63,15 @@ public class Votante extends Ciudadano {
 		double distancia = Math.sqrt(aux);
 		return distancia;
 	}
+	
+	@Override
+	public String obtenerDatos() {
+		String estadoDelVoto;
+		if (getEstadoVoto() == false) {
+			estadoDelVoto = "Pendiente";
+		} else {
+			estadoDelVoto = "Realizado";
+		}
+		return super.obtenerDatos() + " " + "Estado del voto: " + estadoDelVoto;
+	}
 }
