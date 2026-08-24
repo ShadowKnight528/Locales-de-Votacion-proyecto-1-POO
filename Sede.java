@@ -1,6 +1,15 @@
 package package_00;
 import java.util.HashMap;
 
+/**
+ * Simula una sede de votacion, cuenta con un identificador unico de tipo entero, una capacidad
+ * maxima para los votantes asignados a dicha sede, un entero que corresponde a los cupos disponibles de 
+ * la sede para regular la asignacion de votantes, una ubicacion en coordenadas para poder
+ * asignar los votantes en base a la cercania que tengan en relacion a la sede, y un HashMap<Integer, Mesa>
+ * que cuenta con cada una de las mesas de votacion de la sede
+ * 
+ */
+
 public class Sede {
 	
 	private int id;
@@ -9,12 +18,12 @@ public class Sede {
 	private Coordenadas ubicacion;
 	private HashMap<Integer, Mesa> mapaMesas;
 	
-	public Sede(int id, int capMax, Coordenadas ubicacion, HashMap<Integer, Mesa> mapaMesas) {
+	public Sede(int id, int capMax, Coordenadas ubicacion) {
 		setId(id);
 		setCapMax(capMax);
 		cuposDisponibles = this.capMax;
 		setUbicacion(ubicacion);
-		setMapaMesas(mapaMesas);
+		mapaMesas = new HashMap<Integer, Mesa>();
 	}
 	
 	public void setId(int id) {
@@ -48,6 +57,12 @@ public class Sede {
 			this.ubicacion = ubicacion;
 		}
 	}
+	
+	/**
+	 * Sobrecarga el metodo setUbicacion para que el usuario tenga la posibilidad
+	 * de ingresar las coordenadas de la sede en sus dos componentes x e y por separado
+	 * en lugar de pasar por parametro un objeto de la clase Coordenadas
+	 */
 	
 	public void setUbicacion(double x, double y) {
 		if (ubicacion == null) {
@@ -86,9 +101,31 @@ public class Sede {
 		return mapaMesas;
 	}
 	
+	/**
+	 * Decrementa los cupos disponibles de la sede en caso de que un votante haya sido
+	 * asignado con exito a una mesa de la sede
+	 * 
+	 */
+	
 	public void decrementarCuposDisponibles() {
 		cuposDisponibles--;
 	}
+	
+	/**
+	 * 
+	 * Suma las capacidades de cada mesa de la sede para asegurarse de
+	 * que dicha suma no exceda la capacidad maxima de la sede y evitar incosistencias
+	 * al momento de agregar mas mesas a la sede. El metodo recorre los valores del HashMap<Integer, Mesa>
+	 * que contiene las mesas de la sede, validando que la mesa que se esta analizando no sea null
+	 * para acceder a su atributo que almacena su capacidad maxima y agregandoselo a la 
+	 * variable de retorno suma
+	 * 
+	 * @return Retorna la suma de las capacidades de la sede, esta se inicializa en 0,
+	 * 		   si el HashMap<Integer, Mesa> que contiene las mesas de la sede es null
+	 *         se retorna la variable suma sin haberle sumado ningun valor, de lo contrario
+	 *         se retorna la variable almacenando la suma de las capacidades maximas de cada mesa 
+	 *         
+	 */
 	
 	public int sumarCapacidadMesa() {
 		int suma = 0;
@@ -104,18 +141,28 @@ public class Sede {
 		}
 	}
 	
+	/**
+	 * El metodo agrega un objeto de la clase mesa, el cual es recibido por parametro, al HashMap<Integer, Mesa>
+	 * que contiene las mesas de la sede, validando antes, que el parametro recibido no sea null, y si no lo es, que el
+	 * agregar la nueva mesa no supere la capacidad maxima de la sede a causa de la capacidad
+	 * de votantes de la mesa nueva
+	 * 
+	 * @param mesa Se pasa por parametro el objeto de la clase mesa que se quiere agregar al
+	 *        HashMap<Integer, Mesa> de mesas de la sede
+	 *        
+	 */
+	
+	
 	public void agregarMesa(Mesa mesa) {
 		if (mesa == null || (sumarCapacidadMesa() + mesa.getCapMax()) > capMax) {
 			System.out.println("La mesa ingresada no existe o la capacidad maxima de la mesa excede la capacidad maxima de la sede");
+			return;
 		} else {
 			if (mapaMesas == null) {
 				mapaMesas = new HashMap<Integer, Mesa>();
-				mapaMesas.put(mesa.getNumeroMesa(), mesa);
-				return;
-			} else {
-				mapaMesas.put(mesa.getNumeroMesa(), mesa);
-				return;
 			}
+			mapaMesas.put(mesa.getNumeroMesa(), mesa);
+			return;
 		}
 	}
 }
