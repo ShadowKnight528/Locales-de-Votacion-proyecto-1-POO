@@ -77,15 +77,15 @@ public class Mesa {
 	/** 
 	 *  El metodo verifica la capacidad maxima de la mesa y la compara con
 	 *  el tamaño del ArrayLista<> de votantes que esta posee para comprobar si la
-	 *  mesa cuenta con mas capacidad para seguir agregando votantes
+	 *  mesa cuenta con capacidad para seguir agregando votantes, el metodo ademas,
+	 *  valida que el votante ingresado como parametro no sea null antes de agregarlo
+	 *  al ArrayList<> de votantes
 	 * 
-	 * @param votante El metodo agrega el objeto de la clase de votante al ArrayList<>
-	 *        de votantes que posee la mesa si se encuentra que el votante ingresado
-	 *        no es null y si la mesa sigue teniendo capacidad para seguir agregando
-	 *        votantes
+	 * @param votante Corresponde al objeto de la clase Votante que se quiere agregar
+	 *        al ArrayList<> de votantes de la mesa
 	 * @return El metodo retorna true si la mesa posee capacidad para agregar 
-	 * 		   mas votantes y false en caso contrario
-	 * 
+	 * 		   mas votantes y false en caso de que la mesa no cuente con mas 
+	 *         capacidad o bien que el votante que se desea agregar sea null
 	 * */
 	
 	public boolean agregarVotante(Votante votante) {
