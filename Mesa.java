@@ -76,24 +76,25 @@ public class Mesa {
 	
 	/** 
 	 *  El metodo verifica la capacidad maxima de la mesa y la compara con
-	 *  el tamaño del ArrayLista<> de votantes que esta posee para comprobar si la
-	 *  mesa cuenta con capacidad para seguir agregando votantes, el metodo ademas,
-	 *  valida que el votante ingresado como parametro no sea null antes de agregarlo
+	 *  el tamaño del ArrayLista<> de votantes que esta posee con su capacidad maxima
+	 *  para comprobar si la mesa cuenta con capacidad para seguir agregando votantes, ademas
+	 *  se valida que el votante ingresado como parametro no sea null antes de agregarlo
 	 *  al ArrayList<> de votantes
 	 * 
 	 * @param votante Corresponde al objeto de la clase Votante que se quiere agregar
 	 *        al ArrayList<> de votantes de la mesa
-	 * @return El metodo retorna true si la mesa posee capacidad para agregar 
-	 * 		   mas votantes y false en caso de que la mesa no cuente con mas 
-	 *         capacidad o bien que el votante que se desea agregar sea null
+	 * @throws El metodo lanza una excepcion de tipo ExcedeCapacidadException para indicar
+	 *         que la mesa no cuenta con capacidad para agregar mas votantes a su
+	 *         ArrayList<>
 	 * */
 	
-	public boolean agregarVotante(Votante votante) {
-		if (listaVotantes.size() < capMax && votante != null) {
-			listaVotantes.add(votante);
-			return true;
+	public void agregarVotante(Votante votante) throws ExcedeCapacidadException {
+		if (votante == null) {
+			return;
+		} else if (listaVotantes.size() >= capMax) {
+			throw new ExcedeCapacidadException("Se excede la capacidad maxima de la mesa");
 		} else {
-			return false;
+			listaVotantes.add(votante);
 		}
 	}
 }
