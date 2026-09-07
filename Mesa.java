@@ -91,9 +91,12 @@ public class Mesa {
 	public void agregarVotante(Votante votante) throws ExcedeCapacidadException {
 		if (votante == null) {
 			return;
-		} else if (listaVotantes.size() >= capMax) {
+		} else if (listaVotantes != null && listaVotantes.size() >= capMax) {
 			throw new ExcedeCapacidadException("Se excede la capacidad maxima de la mesa");
 		} else {
+			if (listaVotantes == null) {
+				listaVotantes = new ArrayList<Votante>();
+			}
 			listaVotantes.add(votante);
 		}
 	}
