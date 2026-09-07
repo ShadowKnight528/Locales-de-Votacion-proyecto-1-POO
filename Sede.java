@@ -145,11 +145,17 @@ public class Sede {
 	 * El metodo agrega un objeto de la clase mesa, el cual es recibido por parametro, al HashMap<Integer, Mesa>
 	 * que contiene las mesas de la sede, validando antes, que el parametro recibido no sea null, y si no lo es, que el
 	 * agregar la nueva mesa no supere la capacidad maxima de la sede a causa de la capacidad
-	 * de votantes de la mesa nueva
+	 * de votantes de la mesa nueva, ademas, se valida si ya existe una mesa con el mismo 
+	 * numero de mesa que el que tiene la mesa que se quiere agregar, en ese caso se reemplaza la mesa original por
+	 * la nueva, validando que no se exceda la capacidad maxima de la sede en el proceso
 	 * 
 	 * @param mesa Se pasa por parametro el objeto de la clase mesa que se quiere agregar al
 	 *        HashMap<Integer, Mesa> de mesas de la sede
-	 *        
+	 * @throws El metodo lanza una excepcion de tipo ExcedeCapacidadException en caso de que
+	 *         agregar la nueva mesa implique superar la capacidad maxima de la sede, o bien 
+	 *         si reemplazar una mesa ya existente con una nueva implica exceder el limite de
+	 *         votantes de la sede
+	 *          
 	 */
 	
 	
