@@ -153,13 +153,23 @@ public class Sede {
 	 */
 	
 	
-	public void agregarMesa(Mesa mesa) {
-		if (mesa == null || (sumarCapacidadMesa() + mesa.getCapMax()) > capMax) {
-			System.out.println("La mesa ingresada no existe o la capacidad maxima de la mesa excede la capacidad maxima de la sede");
+	public void agregarMesa(Mesa mesa) throws ExcedeCapacidadException {
+		if (mesa == null) {
 			return;
 		} else {
 			if (mapaMesas == null) {
 				mapaMesas = new HashMap<Integer, Mesa>();
+			} else {
+				Mesa mesaAReemplazar = (Mesa)mapaMesas.get(mesa.getNumeroMesa());
+				if (mesaAReemplazar != null) {
+					if (sumarCapacidadMesa() - mesaAReemplazar.getCapMax() + mesa.getCapMax() > capMax) {
+						throw new ExcedeCapacidadException("La mesa no puede ser reemplazada por una de mayor capacidad por que excederia la capacidad de votantes la sede");
+					}
+				} else {
+					if (sumarCapacidadMesa() + mesa.getCapMax() > capMax) {
+						throw new ExcedeCapacidadException("La mesa no puede ser agregada porque se excede la capacidad de votantes de la sede");
+					}
+				}
 			}
 			mapaMesas.put(mesa.getNumeroMesa(), mesa);
 			return;
