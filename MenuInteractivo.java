@@ -9,10 +9,11 @@ public class MenuInteractivo {
 			System.out.println("La mesa y/o el votante ingresados no existen");
 			return;
 		} else {
-			if (mesa.agregarVotante(votante) == true) {
-				System.out.println("El votante ha sido añadido con exito a la mesa seleccionada");
-			} else {
-				System.out.println("La mesa que usted ha seleccionado no posee mas cupos");
+			try {
+				mesa.agregarVotante(votante);
+				System.out.println("El votante ha sido agregado con exito");
+			} catch (ExcedeCapacidadException e) {
+				System.out.println(e.getMessage());
 			}
 		}
 	}
@@ -22,8 +23,12 @@ public class MenuInteractivo {
 			System.out.println("La sede no existe");
 			return;
 		} else {
-			sede.agregarMesa(mesa);
-			return;
+			try {
+				sede.agregarMesa(mesa);
+			    System.out.println("La mesa ha sido agregada con exito");
+			} catch (ExcedeCapacidadException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 	}
 	
