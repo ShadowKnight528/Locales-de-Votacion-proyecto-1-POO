@@ -67,7 +67,7 @@ public class Votante extends Ciudadano {
 	@Override
 	public String obtenerDatos() {
 		String estadoDelVoto;
-		if (getEstadoVoto() == false) {
+		if (estadoVoto == false) {
 			estadoDelVoto = "Pendiente";
 		} else {
 			estadoDelVoto = "Realizado";
