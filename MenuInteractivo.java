@@ -204,17 +204,35 @@ public class MenuInteractivo {
 			if (mesaAModificarCapMax == null) {
 				System.out.println("El numero de mesa ingresado no hace referencia a ninguna mesa de la sede");
 			} else {
-				int auxCapMax = mesaAModificarCapMax.getCapMax();
-				mesaAModificarCapMax.setCapMax(nuevaCapMax);
-				if (sede.sumarCapacidadMesa() > sede.getCapMax()) {
-					System.out.println("La nueva capacidad maxima de la mesa excede la capacidad maxima de la sede");
-					mesaAModificarCapMax.setCapMax(auxCapMax);
+
+				if (mesaAModificarCapMax.getListaVotantes() == null) {
+					mesaAModificarCapMax.setListaVotantes(new ArrayList<Votante>());
+				}
+				
+				if (mesaAModificarCapMax.getListaVotantes().size() > nuevaCapMax) {
+					System.out.println("La nueva capacidad maxima es inferior a la cantidad actual de votantes asignados a la mesa");
 					return;
-				} else {
-					System.out.println("La capacidad maxima de la mesa ha sido modificada con exito");
+				}
+				
+				Mesa mesaAuxiliar = new Mesa(mesaAModificarCapMax.getNumeroMesa(), nuevaCapMax, mesaAModificarCapMax.getConteoVotos());
+				try {
+					sede.agregarMesa(mesaAuxiliar);
+				} catch (ExcedeCapacidadException e) {
+					System.out.println("La nueva capacidad maxima de la mesa excede la capacidad maxima de la sede");
+					return;
+				}
+				
+				int capMaxOriginal = mesaAModificarCapMax.getCapMax();
+				mesaAModificarCapMax.setCapMax(nuevaCapMax);
+				try {
+					sede.agregarMesa(mesaAModificarCapMax);
+				    System.out.println("La capacidad maxima de la mesa ha sido actualizada con exito");
+				} catch (ExcedeCapacidadException e) {
+					System.out.println("La nueva capacidad maxima de la mesa exceda la capacidad maxima de la sede");
+					mesaAModificarCapMax.setCapMax(capMaxOriginal);
 					return;
 				}
 			}
 		}
 	}
-}
+}	
