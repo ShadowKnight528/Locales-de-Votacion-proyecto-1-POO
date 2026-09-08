@@ -113,4 +113,11 @@ public class Mesa {
 		}	
 		throw new BusquedaFallidaException("Votante no encontrado");
 	}
+	
+	public Votante eliminarVotante(String rut) throws BusquedaFallidaException {
+		
+		Votante v = buscarVotante(rut);
+		listaVotantes.remove(v);
+	    return v;
+	}
 }
