@@ -63,56 +63,69 @@ public class MenuInteractivo {
 	}
 	
 	public Votante buscarVotanteEnMesa(String rut, Mesa mesa) {
-		if (mesa == null || mesa.getListaVotantes() == null || rut == null) {
-			System.out.println("La mesa ingresada no existe, la mesa no tiene votantes asignados, o bien el rut ingresado no es valido");
+		
+		if (mesa == null) {
+			System.out.println("La mesa ingresada no existe");
 			return null;
 		} else {
-			for (Votante votante : mesa.getListaVotantes()) {
-				if ((votante.getRut().equals(rut)) == true) {
-					return votante;
-				}
+			try {
+				Votante v = mesa.buscarVotante(rut);
+				System.out.println("Votante hallado con exito");
+				return v;
+			} catch (BusquedaFallidaException e) {
+				System.out.println(e.getMessage());
+				return null;
 			}
-			return null;
 		}
 	}
 	
 	public Mesa buscarMesaEnSede(int numeroMesa, Sede sede) {
-		if (sede == null || sede.getMapaMesas() == null) {
-			System.out.println("La sede ingresada no existe, o bien no tiene mesas disponibles");
+		if (sede == null) {
+			System.out.println("La sede ingresada no existe");
 			return null;
 		} else {
-			return sede.getMapaMesas().get(numeroMesa);
+			try { 
+				Mesa encontrada = sede.buscarMesa(numeroMesa);
+				System.out.println("La mesa ha sido encontrada con exito");
+				return encontrada;
+			} catch (BusquedaFallidaException e) {
+				System.out.println(e.getMessage());
+				return null;
+			}
 		}
 	}
 	
 	public Votante eliminarVotanteDeMesa(String rut, Mesa mesa) {
-		if (rut == null || mesa == null || mesa.getListaVotantes() == null) {
-			System.out.println("La mesa o el rut ingresados no existen, o bien la mesa no cuenta con votantes asignados");
+		
+		if (mesa == null) {
+			System.out.println("La mesa ingresada no existe");
 			return null;
 		} else {
-			Votante eliminado = buscarVotanteEnMesa(rut, mesa);
-			if (eliminado == null) {
-				System.out.println("El rut ingresado no corresponde a un votante asignado a esta mesa");
-			} else {
-				mesa.getListaVotantes().remove(eliminado);
-				System.out.println("El votante ha sido eliminado con exito de la lista de votantes de la mesa seleccionada");
+			try {
+				Votante eliminado = mesa.eliminarVotante(rut);
+				System.out.println("Votante eliminado con exito");
+				return eliminado;
+			} catch (BusquedaFallidaException e) {
+				
+				System.out.println(e.getMessage());
+				return null;
 			}
-			return eliminado;
 		}
 	}
+	
 	public Mesa eliminarMesaDeSede(int numeroMesa, Sede sede) {
-		if (sede == null || sede.getMapaMesas() == null) {
-			System.out.println("La sede ingresada no existe o bien no cuenta con mesas disponibles");
+		if (sede == null) {
+			System.out.println("La sede ingresada no existe");
 			return null;
 		} else {
-			Mesa eliminada = buscarMesaEnSede(numeroMesa, sede);
-			if (eliminada == null) {
-				System.out.println("El numero de mesa ingresado no corresponde a una mesa de la sede");
-			} else {
-				sede.getMapaMesas().remove(numeroMesa, eliminada);
-				System.out.println("La mesa ha sido eliminada con exito");
+			try {
+				Mesa eliminada = sede.retirarMesa(numeroMesa);
+				System.out.println("Mesa eliminada con exito");
+				return eliminada;
+			} catch (BusquedaFallidaException e) {
+				System.out.println(e.getMessage());
+				return null;
 			}
-			return eliminada;
 		}
 	}
 	
@@ -196,43 +209,34 @@ public class MenuInteractivo {
 	}
 	
 	public void modificarCapMaxMesa(int numeroMesa, Sede sede, int nuevaCapMax) {
-		if (sede == null || sede.getMapaMesas() == null) {
-			System.out.println("La sede ingresada no existe, o bien no tiene mesas disponibles");
+		
+		if (sede == null) {
+			System.out.println("La sede ingresada no existe");
 			return;
 		} else {
+			
 			Mesa mesaAModificarCapMax = buscarMesaEnSede(numeroMesa, sede);
 			if (mesaAModificarCapMax == null) {
-				System.out.println("El numero de mesa ingresado no hace referencia a ninguna mesa de la sede");
+				return;
+			}
+			if (mesaAModificarCapMax.getListaVotantes() == null) {
+				mesaAModificarCapMax.setListaVotantes(new ArrayList<Votante>());
+			}
+				
+			int aux = mesaAModificarCapMax.getCapMax();
+			if (!mesaAModificarCapMax.setCapMax(nuevaCapMax)) {
+				return;	
 			} else {
-
-				if (mesaAModificarCapMax.getListaVotantes() == null) {
-					mesaAModificarCapMax.setListaVotantes(new ArrayList<Votante>());
-				}
-				
-				if (mesaAModificarCapMax.getListaVotantes().size() > nuevaCapMax) {
-					System.out.println("La nueva capacidad maxima es inferior a la cantidad actual de votantes asignados a la mesa");
-					return;
-				}
-				
-				Mesa mesaAuxiliar = new Mesa(mesaAModificarCapMax.getNumeroMesa(), nuevaCapMax, mesaAModificarCapMax.getConteoVotos());
-				try {
-					sede.agregarMesa(mesaAuxiliar);
-				} catch (ExcedeCapacidadException e) {
-					System.out.println(e.getMessage());
-					return;
-				}
-				
-				int capMaxOriginal = mesaAModificarCapMax.getCapMax();
-				mesaAModificarCapMax.setCapMax(nuevaCapMax);
 				try {
 					sede.agregarMesa(mesaAModificarCapMax);
-				    System.out.println("La capacidad maxima de la mesa ha sido actualizada con exito");
+					System.out.println("La mesa ha sido agregada con exito");
+					return;
 				} catch (ExcedeCapacidadException e) {
+					mesaAModificarCapMax.setCapMax(aux);
 					System.out.println(e.getMessage());
-					mesaAModificarCapMax.setCapMax(capMaxOriginal);
 					return;
 				}
 			}
 		}
 	}
-}
+}	
