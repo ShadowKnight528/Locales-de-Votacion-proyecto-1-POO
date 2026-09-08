@@ -21,8 +21,8 @@ public class Mesa {
 	
 	public Mesa(int numeroMesa, int capMax, HashMap<String, Integer> conteoVotos) {
 		setNumeroMesa(numeroMesa);
-		setCapMax(capMax);
 		this.listaVotantes = new ArrayList<Votante>(); 
+		setCapMax(capMax);
 		setConteoVotos(conteoVotos);
 	}
 	
@@ -34,11 +34,18 @@ public class Mesa {
 		}
 	}
 	
-	public void setCapMax(int capMax) {
+	public boolean setCapMax(int capMax) {
 		if (capMax <= 0) {
 			System.out.println("Valor invalido");
+			return false;
 		} else {
-			this.capMax = capMax;
+			if (listaVotantes != null && listaVotantes.size() > capMax) {
+				System.out.println("La nueva capacidad maxima de votantes es inferior a la cantidad de votantes ya asignados");
+				return false;
+			} else {
+				this.capMax = capMax;
+				return true;
+			}
 		}
 	}
 	
