@@ -1,6 +1,7 @@
 package package_00;
 
 import java.util.HashMap;
+import java.util.Vector;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,13 +9,22 @@ import java.util.ArrayList;
 
 public class MenuInteractivo {
 	
+	private Vector<Sede> sedes;
+	
+	public MenuInteractivo(Vector<Sede> sedes) {
+		this.sedes = sedes;
+	}
+	
     public void leerEntradaUsuario() throws IOException {
-    	BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
-    	System.out.println("Seleccione 1 para consola y 2 para ventana");
     	
+    	BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
     	int opcion = 0;
     	while(true) {
     		
+    		System.out.println("Seleccione un numero");
+        	System.out.println("1 - Entrar en modo de consola");
+        	System.out.println("2 - Entrar en modo de ventana");
+        	
     		try {
     			opcion = Integer.parseInt(lector.readLine());
     		} catch (IllegalArgumentException e) {
@@ -24,7 +34,118 @@ public class MenuInteractivo {
     		
     		switch(opcion) {
     			case 1:
-    				System.out.println("En progreso, vuelva pronto...");
+    				boolean modoConsolaActivado = true;
+    				while (modoConsolaActivado) {
+    					System.out.println("Seleccione un numero");
+    					System.out.println("1 - Entrar como gestor");
+    					System.out.println("2 - Entrar como votante");
+    					System.out.println("3 - Volver");
+    					int opcionConsola = 0;
+    					try {
+    						opcionConsola = Integer.parseInt(lector.readLine());
+    					} catch (IllegalArgumentException e) {
+    						System.out.println("Debe ingresar un numero entero!");
+    						continue;
+    					}
+    				
+    					switch(opcionConsola) {
+    						case 1:
+    							boolean modoGestorActivado = true;
+    							while (modoGestorActivado) {
+    								System.out.println("Seleccione un numero");
+    								System.out.println("1 - Gestionar votantes");
+    								System.out.println("2 - Gestionar mesas");
+    								System.out.println("3 - Gestionar sedes");
+    								System.out.println("4 - Volver");
+    								int opcionGestion = 0;
+    								try {
+    									opcionGestion = Integer.parseInt(lector.readLine());
+    								} catch (IllegalArgumentException e) {
+    									System.out.println("Debe ingresar un numero entero!");
+    									continue;
+    								}
+    								
+    								switch(opcionGestion) {
+    									case 1:
+    										boolean modoGestorVotantes = true;
+    										while (modoGestorVotantes) {
+    											System.out.println("Seleccione un numero");
+    											System.out.println("1 - Agregar votante a mesa");
+    											System.out.println("2 - Listar votantes asignados a una mes");
+    											System.out.println("3 - Buscar un votante en una mesa");
+    											System.out.println("4 - Eliminar la asignacion de un votante a una mesa");
+    											System.out.println("5 - Modificar el nombre de un votante");
+    											System.out.println("6 - Modificar el domicilio de un votante");
+    											System.out.println("7 - Volver");
+    											int opcionGestionVotantes = 0;
+    											try {
+    												opcionGestionVotantes = Integer.parseInt(lector.readLine());
+    											} catch (IllegalArgumentException e) {
+    												System.out.println("Debe ingresar un numero entero!");
+    												continue;
+    											}
+    											switch(opcionGestionVotantes) {
+    												case 1:
+    													
+    													boolean esValidoID = false;
+    													int idSede = -1;
+    													while(!esValidoID) {
+    														System.out.println("Ingrese el ID de la sede a la que pertenece la mesa a la que se le desea asginar un votante");
+    														try {
+    															idSede = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Valor invalido, ingrese un numero entero!");
+    															continue;
+    														}
+    														esValidoID = true;
+    													}
+    													if (buscarSede(idSede) == null) {
+    														System.out.println("El ID ingresado no corresponde una sede existente");
+    														break;
+    													}
+    													break;
+    												case 2:
+    													break;
+    												case 3:
+    													break;
+    												case 4:
+    													break;
+    												case 5:
+    													break;
+    												case 6:
+    													break;
+    												case 7:
+    													modoGestorVotantes = false;
+    													break;
+    												default: 
+    													System.out.println("La opcion ingresada no es valida");	
+    											}
+    										}
+    										break;
+    									case 2:
+    										break;
+    									case 3:
+    										break;
+    									case 4:
+    										modoGestorActivado = false;
+    										break;
+    									default:
+    										System.out.println("La opcion ingresada no es valida");	
+    								}
+    							}
+    							
+    							break;
+    						case 2:
+    							break;
+    						case 3:
+    							modoConsolaActivado = false;
+    							break;
+    						default:
+    							System.out.println("La opcion ingresada no es valida");	
+    				
+    					}
+    				}
+    				
     				break;
     			case 2:
     				Ventana ventanaPrincipal = new Ventana();
@@ -33,7 +154,6 @@ public class MenuInteractivo {
     				System.out.println("La opción ingresada no es valida, intente ingresando 1 o 2");
     				continue;
     		}
-    		break;
     	}
     }
 	
@@ -270,6 +390,18 @@ public class MenuInteractivo {
 					return;
 				}
 			}
+		}
+	}
+	public Sede buscarSede(int id) {
+		if (sedes == null) {
+			return null;
+		} else {
+			for (Sede sede : sedes) {
+				if (sede != null && sede.getId() == id) {
+					return sede;
+				}
+			}
+			return null;
 		}
 	}
 }
