@@ -218,7 +218,7 @@ public class MenuInteractivo {
 				try {
 					sede.agregarMesa(mesaAuxiliar);
 				} catch (ExcedeCapacidadException e) {
-					System.out.println("La nueva capacidad maxima de la mesa excede la capacidad maxima de la sede");
+					System.out.println(e.getMessage());
 					return;
 				}
 				
@@ -228,11 +228,11 @@ public class MenuInteractivo {
 					sede.agregarMesa(mesaAModificarCapMax);
 				    System.out.println("La capacidad maxima de la mesa ha sido actualizada con exito");
 				} catch (ExcedeCapacidadException e) {
-					System.out.println("La nueva capacidad maxima de la mesa exceda la capacidad maxima de la sede");
+					System.out.println(e.getMessage());
 					mesaAModificarCapMax.setCapMax(capMaxOriginal);
 					return;
 				}
 			}
 		}
 	}
-}	
+}
