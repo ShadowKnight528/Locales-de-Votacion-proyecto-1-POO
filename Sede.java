@@ -181,4 +181,26 @@ public class Sede {
 			return;
 		}
 	}
+	
+	public Mesa buscarMesa(int numMesa) throws BusquedaFallidaException {
+		
+		if (mapaMesas == null) {
+			throw new BusquedaFallidaException("La mesa no ha sido encontrada debido a que la sede no tiene mesas");
+		} else {
+			Mesa encontrada = mapaMesas.get(numMesa);
+			if (encontrada == null) {
+				throw new BusquedaFallidaException("La mesa no ha sido encontrada en la sede");
+			} else {
+				return encontrada;
+			}
+		}
+	}
+	
+	public Mesa retirarMesa(int numMesa) throws BusquedaFallidaException {
+		
+		Mesa quitada = buscarMesa(numMesa);
+		mapaMesas.remove(numMesa, quitada);
+		return quitada;
+		
+	}
 }
