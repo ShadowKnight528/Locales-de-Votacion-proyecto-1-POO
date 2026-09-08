@@ -100,4 +100,17 @@ public class Mesa {
 			listaVotantes.add(votante);
 		}
 	}
+	
+	public Votante buscarVotante(String RUT) throws BusquedaFallidaException {
+		
+		if (listaVotantes == null) {
+			throw new BusquedaFallidaException("No se puedo encontrar al votante por que la lista esta vacia");
+		}
+		for (Votante v : listaVotantes) {
+			if (v != null && v.getRut() != null && v.getRut().equals(RUT)) {
+				return v;
+			}
+		}	
+		throw new BusquedaFallidaException("Votante no encontrado");
+	}
 }
