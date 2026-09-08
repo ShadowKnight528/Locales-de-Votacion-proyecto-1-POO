@@ -21,14 +21,22 @@ public class SistemaDeAsignacion {
 	 */
 	
 	private boolean asignarMesa(Votante votante, Sede sede) {
+		
 		HashMap<Integer, Mesa> mapaMesas = sede.getMapaMesas();
 		if (mapaMesas == null) {
 			return false;
 		}
+		
 		for (Mesa mesa : mapaMesas.values()) {
-			if (mesa != null && mesa.agregarVotante(votante) == true) {
-				votante.setTieneMesa(true);
-				return true;
+			if (mesa != null) {
+				try {
+					mesa.agregarVotante(votante);
+					votante.setTieneMesa(true);
+					System.out.println("El votante ha sido agregado con exito");
+					return true;
+				} catch (ExcedeCapacidadException e) {
+					
+				}
 			}
 		}
 		return false;
