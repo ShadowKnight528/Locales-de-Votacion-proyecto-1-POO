@@ -17,6 +17,7 @@ public class MenuInteractivo {
 	
     public void leerEntradaUsuario() throws IOException {
     	
+        GestorDeColecciones gestor = new GestorDeColecciones(sedes);
     	BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
     	int opcion = 0;
     	while(true) {
@@ -99,7 +100,7 @@ public class MenuInteractivo {
     														}
     														esValidoID = true;
     													}
-    													Sede sede = buscarSede(idSede);
+    													Sede sede = gestor.buscarSede(idSede);
     													if (sede == null) {
     														System.out.println("El ID ingresado no corresponde una sede existente");
     														break;
@@ -112,7 +113,7 @@ public class MenuInteractivo {
     															System.out.println("Valor invalido, ingrese un numero entero!");
     															continue;
     														}
-    														Mesa mesaAgregarVotante = buscarMesaEnSede(numMesa, sede);
+    														Mesa mesaAgregarVotante = gestor.buscarMesaEnSede(numMesa, sede);
     														if (mesaAgregarVotante == null) {
     															System.out.println("El numero de mesa ingresado no se halla registrado dentro de la sede seleccionada");
     															break;
@@ -174,7 +175,7 @@ public class MenuInteractivo {
     														}
     														esValidoID = true;
     													}
-    													sede = buscarSede(idSede);
+    													sede = gestor.buscarSede(idSede);
     													if (sede == null) {
     														System.out.println("El ID ingresado no corresponde una sede existente");
     														break;
@@ -187,8 +188,8 @@ public class MenuInteractivo {
     															System.out.println("Valor invalido, ingrese un numero entero!");
     															continue;
     														}
-    														Mesa mesaAListarVotantes = buscarMesaEnSede(numMesa, sede);
-    														listarVotantesMesa(mesaAListarVotantes);
+    														Mesa mesaAListarVotantes = gestor.buscarMesaEnSede(numMesa, sede);
+    														gestor.listarVotantesMesa(mesaAListarVotantes);
     													}
     														
     													break;
@@ -205,7 +206,7 @@ public class MenuInteractivo {
     														}
     														esValidoID = true;
     													}
-    													sede = buscarSede(idSede);
+    													sede = gestor.buscarSede(idSede);
     													if (sede == null) {
     														System.out.println("El ID ingresado no corresponde una sede existente");
     														break;
@@ -218,7 +219,7 @@ public class MenuInteractivo {
     															System.out.println("Valor invalido, ingrese un numero entero!");
     															continue;
     														}
-    														Mesa mesaBuscarVotante = buscarMesaEnSede(numMesa, sede);
+    														Mesa mesaBuscarVotante = gestor.buscarMesaEnSede(numMesa, sede);
     														System.out.println("Ingrese el RUT del votante que desea buscar en la mesa");
     														String rut = null;
     														try {
@@ -227,7 +228,7 @@ public class MenuInteractivo {
     															System.out.println("Error al leer el rut, ingrese un String");
     															continue;
     														}
-    														if (buscarVotanteEnMesa(rut, mesaBuscarVotante) == null) {
+    														if (gestor.buscarVotanteEnMesa(rut, mesaBuscarVotante) == null) {
     															System.out.println("No se ha hallado el votante en la mesa solicitada");
     														}
     													}
@@ -245,7 +246,7 @@ public class MenuInteractivo {
     														}
     														esValidoID = true;
     													}
-    													sede = buscarSede(idSede);
+    													sede = gestor.buscarSede(idSede);
     													if (sede == null) {
     														System.out.println("El ID ingresado no corresponde una sede existente");
     														break;
@@ -258,7 +259,7 @@ public class MenuInteractivo {
     															System.out.println("Valor invalido, ingrese un numero entero!");
     															continue;
     														}
-    														Mesa mesaQuitarVotante = buscarMesaEnSede(numMesa, sede);
+    														Mesa mesaQuitarVotante = gestor.buscarMesaEnSede(numMesa, sede);
     														System.out.println("Ingrese el RUT del votante que desea eliminar");
     														String rut = null;
     														try {
@@ -267,7 +268,7 @@ public class MenuInteractivo {
     															System.out.println("Error al leer el rut, ingrese un String");
     															continue;
     														}
-    														eliminarVotanteDeMesa(rut, mesaQuitarVotante);
+    														gestor.eliminarVotanteDeMesa(rut, mesaQuitarVotante);
     													}
     													break;
     												case 5:
@@ -283,7 +284,7 @@ public class MenuInteractivo {
     														}
     														esValidoID = true;
     													}
-    													sede = buscarSede(idSede);
+    													sede = gestor.buscarSede(idSede);
     													if (sede == null) {
     														System.out.println("El ID ingresado no corresponde una sede existente");
     														break;
@@ -296,7 +297,7 @@ public class MenuInteractivo {
     															System.out.println("Valor invalido, ingrese un numero entero!");
     															continue;
     														}
-    														Mesa mesaModificarVotante = buscarMesaEnSede(numMesa, sede);
+    														Mesa mesaModificarVotante = gestor.buscarMesaEnSede(numMesa, sede);
     														System.out.println("Ingrese el RUT del votante que desea modificar su nombre");
     														String rut = null;
     														try {
@@ -330,14 +331,14 @@ public class MenuInteractivo {
     														}
     														switch (opcionModificarNombreVotante) {
     															case 1:
-    																modificarNombreVotante(rut, mesaModificarVotante, nuevo);
+    																gestor.modificarNombreVotante(rut, mesaModificarVotante, nuevo);
     																break;
     															case 2:
-    																Votante votanteModificarNombre = buscarVotanteEnMesa(rut, mesaModificarVotante);
+    																Votante votanteModificarNombre = gestor.buscarVotanteEnMesa(rut, mesaModificarVotante);
     																if (votanteModificarNombre == null) {
     																	System.out.println("El votante no se encuentra en la mesa solicitada");
     																} else {
-    																	modificarNombreVotante(votanteModificarNombre, nuevo);
+    																	gestor.modificarNombreVotante(votanteModificarNombre, nuevo);
     																}
     																break;
     															case 3:
@@ -391,252 +392,4 @@ public class MenuInteractivo {
     		}
     	}
     }
-	
-	public void agregarVotanteAMesa(Votante votante, Mesa mesa) {
-		if (votante == null || mesa == null)	{
-			System.out.println("La mesa y/o el votante ingresados no existen");
-			return;
-		} else {
-			try {
-				mesa.agregarVotante(votante);
-				System.out.println("El votante ha sido agregado con exito");
-			} catch (ExcedeCapacidadException e) {
-				System.out.println(e.getMessage());
-			}
-		}
-	}
-	
-	public void agregarMesaASede(Mesa mesa, Sede sede) {
-		if (sede == null) {
-			System.out.println("La sede no existe");
-			return;
-		} else {
-			try {
-				sede.agregarMesa(mesa);
-			    System.out.println("La mesa ha sido agregada con exito");
-			} catch (ExcedeCapacidadException e) {
-				System.out.println(e.getMessage());
-			}
-		}
-	}
-	
-	public void listarVotantesMesa(Mesa mesa) {
-		if (mesa == null) {
-			System.out.println("Esta mesa no existe");
-		} else {
-			ArrayList<Votante> listaVotantes = mesa.getListaVotantes();
-			if (listaVotantes == null) {
-				System.out.println("Esta mesa no tiene votantes");
-			} else {
-				for (Votante votante : listaVotantes) {
-					System.out.println(votante.obtenerDatos());
-				}
-			}
-		}
-	}
-	
-	public void listarMesasSede(Sede sede) {
-		if (sede == null) {
-			System.out.println("La sede no existe");
-		} else {
-			HashMap<Integer, Mesa> mapaMesas = sede.getMapaMesas();
-			if (mapaMesas == null) {
-				System.out.println("La sede no cuenta con mesas disponibles");
-			} else {
-				for (Mesa mesa : mapaMesas.values()) {
-					System.out.println("Numero de mesa: " + mesa.getNumeroMesa() + " Capacidad maxima: " + mesa.getCapMax());
-				}
-			}
-		}
-	}
-	
-	public Votante buscarVotanteEnMesa(String rut, Mesa mesa) {
-		
-		if (mesa == null) {
-			System.out.println("La mesa ingresada no existe");
-			return null;
-		} else {
-			try {
-				Votante v = mesa.buscarVotante(rut);
-				System.out.println("Votante hallado con exito");
-				return v;
-			} catch (BusquedaFallidaException e) {
-				System.out.println(e.getMessage());
-				return null;
-			}
-		}
-	}
-	
-	public Mesa buscarMesaEnSede(int numeroMesa, Sede sede) {
-		if (sede == null) {
-			System.out.println("La sede ingresada no existe");
-			return null;
-		} else {
-			try { 
-				Mesa encontrada = sede.buscarMesa(numeroMesa);
-				System.out.println("La mesa ha sido encontrada con exito");
-				return encontrada;
-			} catch (BusquedaFallidaException e) {
-				System.out.println(e.getMessage());
-				return null;
-			}
-		}
-	}
-	
-	public Votante eliminarVotanteDeMesa(String rut, Mesa mesa) {
-		
-		if (mesa == null) {
-			System.out.println("La mesa ingresada no existe");
-			return null;
-		} else {
-			try {
-				Votante eliminado = mesa.eliminarVotante(rut);
-				System.out.println("Votante eliminado con exito");
-				return eliminado;
-			} catch (BusquedaFallidaException e) {
-				
-				System.out.println(e.getMessage());
-				return null;
-			}
-		}
-	}
-	
-	public Mesa eliminarMesaDeSede(int numeroMesa, Sede sede) {
-		if (sede == null) {
-			System.out.println("La sede ingresada no existe");
-			return null;
-		} else {
-			try {
-				Mesa eliminada = sede.retirarMesa(numeroMesa);
-				System.out.println("Mesa eliminada con exito");
-				return eliminada;
-			} catch (BusquedaFallidaException e) {
-				System.out.println(e.getMessage());
-				return null;
-			}
-		}
-	}
-	
-	public void modificarNombreVotante(String rut, Mesa mesa, String nuevoNombre) {
-		if (mesa == null || mesa.getListaVotantes() == null || rut == null || nuevoNombre == null) {
-			System.out.println("La mesa ingresada no existe o bien no tiene votantes asignados, el rut ingresado no es valido, o el nuevo nombre tampoco");
-		} else {
-			Votante votanteAModificarNombre = buscarVotanteEnMesa(rut, mesa);
-			if (votanteAModificarNombre == null) {
-				System.out.println("El rut ingresado no corresponde a un votante asignado a esta mesa");
-				return;
-			} else {
-				votanteAModificarNombre.setNombre(nuevoNombre);
-				System.out.println("Nombre actualizado con exito");
-				return;
-			}
-		}
-	}
-	
-	public void modificarNombreVotante(Votante votante, String nuevoNombre) {
-		if (votante == null || nuevoNombre == null) {
-			System.out.println("El votante no existe o bien el nuevo nombre no es valido");
-			return;
-		} else {
-			votante.setNombre(nuevoNombre);
-			System.out.println("Nombre actualizado con exito");
-			return;
-		}
-	}
-	
-	public void modificarResidenciaVotante(String rut, Mesa mesa, Coordenadas nuevoDomicilio) {
-		if (mesa == null || mesa.getListaVotantes() == null || rut == null || nuevoDomicilio == null) {
-			System.out.println("La mesa no existe o no cuenta con votantes asignados, el rut ingresado no es valido, o el domicilio ingresado no existe");
-			return;
-		} else {
-			Votante votanteAModificarDomicilio = buscarVotanteEnMesa(rut, mesa);
-			if (votanteAModificarDomicilio == null) {
-				System.out.println("El rut ingresado no corresponde a un votante asignado a esta mesa");
-				return;
-			} else {
-				votanteAModificarDomicilio.setResidencia(nuevoDomicilio);
-				return;
-			}
-		}
-	}
-	
-	public void modificarResidenciaVotante(String rut, Mesa mesa, double xNuevoDomicilio, double yNuevoDomicilio) {
-		if (mesa == null || mesa.getListaVotantes() == null || rut == null) {
-			System.out.println("La mesa no existe o no cuenta con votantes asignados, o bien el rut ingresado no es valido");
-			return;
-		} else {
-			Votante votanteAModificarDomicilio = buscarVotanteEnMesa(rut, mesa);
-			if (votanteAModificarDomicilio == null) {
-				System.out.println("El rut ingresado no corresponde a un votante asignado a esta mesa");
-				return;
-			} else {
-				votanteAModificarDomicilio.setResidencia(xNuevoDomicilio, yNuevoDomicilio);
-				return;
-			}
-		}
-	}
-	
-	public void modificarResidenciaVotante(Votante votante, Coordenadas nuevoDomicilio) {
-		if (votante == null || nuevoDomicilio == null) {
-			System.out.println("El votante o el nuevo domicilio ingresados no existen");
-			return;
-		} else {
-			votante.setResidencia(nuevoDomicilio);
-			return;
-		}
-	}
-	
-	public void modificarResidenciaVotante(Votante votante, double xNuevoDomicilio, double yNuevoDomicilio) {
-		if (votante == null) {
-			System.out.println("El votante ingresado no existe");
-			return;
-		} else {
-			votante.setResidencia(xNuevoDomicilio, yNuevoDomicilio);
-			return;
-		}
-	}
-	
-	public void modificarCapMaxMesa(int numeroMesa, Sede sede, int nuevaCapMax) {
-		
-		if (sede == null) {
-			System.out.println("La sede ingresada no existe");
-			return;
-		} else {
-			
-			Mesa mesaAModificarCapMax = buscarMesaEnSede(numeroMesa, sede);
-			if (mesaAModificarCapMax == null) {
-				return;
-			}
-			if (mesaAModificarCapMax.getListaVotantes() == null) {
-				mesaAModificarCapMax.setListaVotantes(new ArrayList<Votante>());
-			}
-				
-			int aux = mesaAModificarCapMax.getCapMax();
-			if (!mesaAModificarCapMax.setCapMax(nuevaCapMax)) {
-				return;	
-			} else {
-				try {
-					sede.agregarMesa(mesaAModificarCapMax);
-					System.out.println("La mesa ha sido agregada con exito");
-					return;
-				} catch (ExcedeCapacidadException e) {
-					mesaAModificarCapMax.setCapMax(aux);
-					System.out.println(e.getMessage());
-					return;
-				}
-			}
-		}
-	}
-	public Sede buscarSede(int id) {
-		if (sedes == null) {
-			return null;
-		} else {
-			for (Sede sede : sedes) {
-				if (sede != null && sede.getId() == id) {
-					return sede;
-				}
-			}
-			return null;
-		}
-	}
-}	
+}
