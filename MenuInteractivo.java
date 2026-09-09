@@ -10,9 +10,11 @@ import java.util.ArrayList;
 public class MenuInteractivo {
 	
 	private Vector<Sede> sedes;
+	private HashMap<String, Integer> conteoVotos;
 	
-	public MenuInteractivo(Vector<Sede> sedes) {
+	public MenuInteractivo(Vector<Sede> sedes,  HashMap<String, Integer> conteoVotos) {
 		this.sedes = sedes;
+		this.conteoVotos = conteoVotos;
 	}
 	
     public void leerEntradaUsuario() throws IOException {
@@ -521,6 +523,142 @@ public class MenuInteractivo {
     										}
     										break;
     									case 2:
+    										boolean modoGestionMesas = true;
+    										while (modoGestionMesas) {
+    											System.out.println("Ingrese un numero");
+    											System.out.println("1 - Agregar una mesa a sede");
+    											System.out.println("2 - Listar las mesas pertenecientes a una sede");
+    											System.out.println("3 - Buscar una mesa");
+    											System.out.println("4 - Retirar una mesa de una sede");
+    											System.out.println("5 - Modificar la capacidad maxima de una mesa");
+    											System.out.println("6 - Volver");
+    											int opcionGestionMesas = 0;
+    											try {
+    												opcionGestionMesas = Integer.parseInt(lector.readLine());
+    											} catch (IllegalArgumentException e) {
+    												System.out.println("Error al procesar la opcion, ingrese un numero entero!");
+    												continue;
+    											}
+    											switch (opcionGestionMesas) {
+    												case 1:
+    													boolean esValidoID = false;
+    													boolean esValidoNumMesa = false;
+    													boolean esValidaCapMax = false;
+    													int idSede = -1;
+    													int numMesaNueva = 0;
+    													int capMaxMesa = 0;
+    													while(!esValidoID) {
+    														System.out.println("Ingrese el ID de la sede a la desea agregar una mesa");
+    														try {
+    															idSede = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Valor invalido, ingrese un numero entero!");
+    															continue;
+    														}
+    														esValidoID = true;
+    													}
+    													Sede sedeAgregarMesa = gestor.buscarSede(idSede);
+    													if (sedeAgregarMesa == null) {
+    														System.out.println("La sede ingresada no existe");
+    														break;
+    													}
+    													while (!esValidoNumMesa) {
+    														System.out.println("Ingrese un numero de mesa");
+    														try {
+    															numMesaNueva = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Error al leer el numero de mesa, ingrese un valor entero");
+    															continue;
+    														}
+    														esValidoNumMesa = true;
+    													}
+    													while (!esValidaCapMax) {
+    														System.out.println("Ingrese la capacidad maxima de la mesa que desea agregar");
+    														try {
+    															capMaxMesa = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Error al leer la capacidad maxima, ingrese un valor entero");
+    															continue;
+    														}
+    														esValidaCapMax = true;
+    													}
+    													Mesa nueva = new Mesa(numMesaNueva, capMaxMesa, new HashMap<String, Integer>(conteoVotos));
+    													gestor.agregarMesaASede(nueva, sedeAgregarMesa);
+    													break;
+    												case 2:
+    													esValidoID = false;	
+    													idSede = -1;
+    													while(!esValidoID) {
+    														System.out.println("Ingrese el ID de la sede donde se encuentran las mesas que desea listar");
+    														try {
+    															idSede = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Valor invalido, ingrese un numero entero!");
+    															continue;
+    														}
+    														esValidoID = true;
+    													}
+    													Sede sedeListarMesas = gestor.buscarSede(idSede);
+    													if (sedeListarMesas == null) {
+    														System.out.println("La sede ingresada no existe");
+    														break;
+    													}
+    													gestor.listarMesasSede(sedeListarMesas);
+    													break;
+    												case 3:
+    													esValidoID = false;
+    													esValidoNumMesa = false;
+    													idSede = -1;
+    													int numMesaBuscada = 0;
+    													while(!esValidoID) {
+    														System.out.println("Ingrese el ID de la sede en la que desea buscar una mesa");
+    														try {
+    															idSede = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Valor invalido, ingrese un numero entero!");
+    															continue;
+    														}
+    														esValidoID = true;
+    													}
+    													Sede sedeBuscarMesa = gestor.buscarSede(idSede);
+    													if (sedeBuscarMesa == null) {
+    														System.out.println("La sede ingresada no existe");
+    														break;
+    													}
+    													while (!esValidoNumMesa) {
+    														System.out.println("Ingrese un numero de mesa");
+    														try {
+    															numMesaBuscada = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Error al leer el numero de mesa, ingrese un valor entero");
+    															continue;
+    														}
+    														esValidoNumMesa = true;
+    													}
+    													Mesa buscada = gestor.buscarMesaEnSede(numMesaBuscada, sedeBuscarMesa);
+    													if (buscada != null) {
+    														System.out.println("Mesa numero " + buscada.getNumeroMesa() + " encontrada con exito");
+    														System.out.println("Capacidad maxima de la mesa: " + buscada.getCapMax());
+    														if (buscada.getListaVotantes() != null && !buscada.getListaVotantes().isEmpty()) {
+    															System.out.println("Lista de votantes asignados a esta mesa: ");
+    															gestor.listarVotantesMesa(buscada);
+    														}
+    													} else {
+    														System.out.println("La mesa no ha sido encontrada");
+    													}
+    													break;
+    												case 4:
+    													break;
+    												case 5:
+    													break;
+    												case 6:
+    													modoGestionMesas = false;
+    													break;
+    												default:
+    													System.out.println("El numero ingresado no corresponde a una opcion valida");
+    													continue;
+    											}
+    										}
     										break;
     									case 3:
     										boolean modoGestionSedes = true;
