@@ -12,7 +12,9 @@ public class Ventana extends JFrame {
     private JPanel panelSubOpciones;
     private GestorDeColecciones gestor;
     
-    public Ventana() {
+    public Ventana(GestorDeColecciones gestor) {
+    	this.gestor = gestor;
+    	
         this.setSize(700, 600);
         this.setTitle("Ventana con Opciones");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
