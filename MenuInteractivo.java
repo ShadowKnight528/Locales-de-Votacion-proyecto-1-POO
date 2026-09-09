@@ -384,7 +384,11 @@ public class MenuInteractivo {
     				
     				break;
     			case 2:
-    				Ventana ventanaPrincipal = new Ventana();
+    				javax.swing.SwingUtilities.invokeLater(() -> {
+    					Ventana ventanaPrincipal = new Ventana(gestor);
+    					ventanaPrincipal.setLocationRelativeTo(null);
+    					ventanaPrincipal.setVisible(true);
+    				});
     				break;
     			default:
     				System.out.println("La opción ingresada no es valida, intente ingresando 1 o 2");
