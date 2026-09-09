@@ -259,4 +259,19 @@ public class GestorDeColecciones {
 			return null;
 		}
 	}
+	
+	public void listarSedes(Vector<Sede> sedes) {
+		if (sedes == null) {
+			System.out.println("No hay sedes disponibles");
+			return;
+		} else {
+			for (Sede sede : sedes) {
+				if (sede != null) {
+					System.out.println("ID de la sede: " + sede.getId());
+					if (sede.getUbicacion() != null)
+						System.out.println("Ubicacion: " + sede.getUbicacion().getX() + ", " + sede.getUbicacion().getY());
+				}
+			}
+		}
+	}
 }
