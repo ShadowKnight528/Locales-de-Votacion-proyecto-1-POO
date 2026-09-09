@@ -342,7 +342,6 @@ public class MenuInteractivo {
     																}
     																break;
     															case 3:
-    																modoGestorVotantes = false;
     																break;
     														}
     													}
@@ -444,7 +443,7 @@ public class MenuInteractivo {
     																				break;
     																			case 3:
     																				modoSeleccionCoordenadas = false;
-    																				continue;
+    																				break;
     																			default:
     																				continue;
     																		}
@@ -495,7 +494,7 @@ public class MenuInteractivo {
         																			break;
         																		case 3:
         																			modoSeleccionCoordenadas = false;
-        																			continue;
+        																			break;
         																		default:
         																			continue;
         																	}
@@ -524,6 +523,52 @@ public class MenuInteractivo {
     									case 2:
     										break;
     									case 3:
+    										boolean modoGestionSedes = true;
+    										while (modoGestionSedes) {
+    											System.out.println("Ingrese un numero");
+    											System.out.println("1 - Buscar una sede por ID");
+    											System.out.println("2 - Listar sedes");
+    											System.out.println("3 - Volver");
+    											int opcionGestionSedes = 0;
+    											try {
+    												opcionGestionSedes = Integer.parseInt(lector.readLine());
+    											} catch (IllegalArgumentException e) {
+    												System.out.println("Error al procesar la opcion, ingrese un numero entero!");
+    												continue;
+    											}
+    											switch (opcionGestionSedes) {
+    												case 1:
+    													int idSedeBuscada = 0;
+    													System.out.println("Ingrese el ID de la sede que busca");
+    													try {
+    														idSedeBuscada = Integer.parseInt(lector.readLine());
+    													} catch (IllegalArgumentException e) {
+    														System.out.println("Error al procesar la opcion, ingrese un numero entero!");
+    														continue;
+    													}
+    													Sede buscada = gestor.buscarSede(idSedeBuscada);
+    													if (buscada != null) {
+    														System.out.println("Sede encontrada con exito");
+    														if (buscada.getUbicacion() != null) {
+    															System.out.println("Ubicacion de la sede: " + buscada.getUbicacion().getX() + ", " + buscada.getUbicacion().getY());
+    														}
+    													} else {
+    														System.out.println("No se ha encontrado la sede solicitada");
+    													}
+    													modoGestionSedes = false;
+    													break;
+    												case 2:
+    													gestor.listarSedes(sedes);
+    													modoGestionSedes = false;
+    													break;
+    												case 3:
+    													modoGestionSedes = false;
+    													break;
+    												default:
+    													System.out.println("La opcion ingresada no es valida");
+    													continue;
+    											}
+    										}
     										break;
     									case 4:
     										modoGestorActivado = false;
