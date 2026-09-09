@@ -349,6 +349,169 @@ public class MenuInteractivo {
     													
     													break;
     												case 6:
+    													esValidoID = false;
+    													idSede = -1;
+    													while(!esValidoID) {
+    														System.out.println("Ingrese el ID de la sede a la que pertenece la mesa del votante que desea modificar su domicilio");
+    														try {
+    															idSede = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Valor invalido, ingrese un numero entero!");
+    															continue;
+    														}
+    														esValidoID = true;
+    													}
+    													sede = gestor.buscarSede(idSede);
+    													if (sede == null) {
+    														System.out.println("El ID ingresado no corresponde una sede existente");
+    														break;
+    													} else {
+    														System.out.println("Ingrese el numero de la mesa del votante que desea modificar su domicilio");
+    														int numMesa = -1;
+    														try {
+    															numMesa = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Valor invalido, ingrese un numero entero!");
+    															continue;
+    														}
+    														Mesa mesaModificarVotante = gestor.buscarMesaEnSede(numMesa, sede);
+    														System.out.println("Ingrese el RUT del votante que desea modificar su domicilio");
+    														String rut = null;
+    														try {
+    															rut = lector.readLine();
+    														} catch (IOException e) {
+    															System.out.println("Error al leer el rut, ingrese un String");
+    															continue;
+    														}
+    														boolean modoCambiarDomicilio = true;
+    														while (modoCambiarDomicilio) {
+    															System.out.println("Ingrese un numero");
+    															System.out.println("1 - Modificar el domicilio a traves del mismo votante");
+    															System.out.println("2 - Modificar el domicilio usando el rut y la mesa del votante");
+    															System.out.println("3 - Volver");
+    															int opcionModificarDomicilio = 0;
+    															try {
+    																opcionModificarDomicilio = Integer.parseInt(lector.readLine());
+    															} catch (IllegalArgumentException e) {
+    																System.out.println("Error al procesar la opcion, ingrese un numero entero!");
+    																continue;
+    															}
+    															switch (opcionModificarDomicilio) {
+    																case 1:
+    																	Votante v = gestor.buscarVotanteEnMesa(rut, mesaModificarVotante);
+    																	boolean modoSeleccionCoordenadas = true;
+    																	double xComponent = 0.0;
+    																	double yComponent = 0.0;
+    																	System.out.println("Ingrese la componente x de la nueva ubicacion");
+        																try {
+        																	xComponent = Double.parseDouble(lector.readLine());
+        																} catch (IllegalArgumentException e) {
+        																	System.out.println("Error al leer la componente x, ingrese un double!");
+        																	continue;
+        																}
+        																System.out.println("Ingrese la componente y de la nueva ubicacion");
+        																yComponent = 0.0;
+        																try {
+        																	yComponent = Double.parseDouble(lector.readLine());
+        																} catch (IllegalArgumentException e) {
+        																	System.out.println("Error al leer la componente y, ingrese un double!");
+        																	continue;
+        																}
+    																	
+    																	while (modoSeleccionCoordenadas) {
+    																		System.out.println("Ingrese un numero");
+    																		System.out.println("1 - Modificar el domicilio usando la ubicacion concreta");
+    																		System.out.println("2 - Modificar el domicilio usando las compenentes x e y de forma independiente");
+    																		System.out.println("3 - Volver");
+    																		int opcionSeleccionCoordenadas = 0;
+    																		try {
+    																			opcionSeleccionCoordenadas = Integer.parseInt(lector.readLine());
+    																		} catch (IllegalArgumentException e) {
+    																			System.out.println("Error al leer la opcion, ingrese un numero entero!");
+    																			continue;
+    																		}
+    																		switch (opcionSeleccionCoordenadas) {
+    																			case 1:
+    																				Coordenadas nuevaUbicacion = new Coordenadas(xComponent, yComponent);
+    																				gestor.modificarResidenciaVotante(v,nuevaUbicacion);
+    																				System.out.println("Domicilio actualizado con exito");
+    																				modoSeleccionCoordenadas = false;
+    																				break;
+    																			case 2:
+    																				gestor.modificarResidenciaVotante(v, xComponent, yComponent);
+    																				System.out.println("Domicilio actualizado con exito");
+    																				modoSeleccionCoordenadas = false;
+    																				break;
+    																			case 3:
+    																				modoSeleccionCoordenadas = false;
+    																				continue;
+    																			default:
+    																				continue;
+    																		}
+    																	}
+    																	break;
+    																case 2:
+    																	modoSeleccionCoordenadas = true;
+    																	xComponent = 0.0;
+    																	yComponent = 0.0;
+    																	System.out.println("Ingrese la componente x de la nueva ubicacion");
+        																try {
+        																	xComponent = Double.parseDouble(lector.readLine());
+        																} catch (IllegalArgumentException e) {
+        																	System.out.println("Error al leer la componente x, ingrese un double!");
+        																	continue;
+        																}
+        																System.out.println("Ingrese la componente y de la nueva ubicacion");
+        																yComponent = 0.0;
+        																try {
+        																	yComponent = Double.parseDouble(lector.readLine());
+        																} catch (IllegalArgumentException e) {
+        																	System.out.println("Error al leer la componente y, ingrese un double!");
+        																	continue;
+        																}
+        																while (modoSeleccionCoordenadas) {
+        																	System.out.println("Ingrese un numero");
+        																	System.out.println("1 - Modificar el domicilio usando la ubicacion concreta");
+        																	System.out.println("2 - Modificar el domicilio usando las compenentes x e y de forma independiente");
+        																	System.out.println("3 - Volver");
+        																	int opcionSeleccionCoordenadas = 0;
+        																	try {
+        																		opcionSeleccionCoordenadas = Integer.parseInt(lector.readLine());
+        																	} catch (IllegalArgumentException e) {
+        																		System.out.println("Error al leer la opcion, ingrese un numero entero!");
+        																		continue;
+        																	}
+        																	switch (opcionSeleccionCoordenadas) {
+        																		case 1:
+        																			Coordenadas nuevaUbicacion = new Coordenadas(xComponent, yComponent);
+        																			gestor.modificarResidenciaVotante(rut, mesaModificarVotante,nuevaUbicacion);
+        																			System.out.println("Domicilio actualizado con exito");
+        																			modoSeleccionCoordenadas = false;
+        																			break;
+        																		case 2:
+        																			gestor.modificarResidenciaVotante(rut, mesaModificarVotante, xComponent, yComponent);
+        																			System.out.println("Domicilio actualizado con exito");
+        																			modoSeleccionCoordenadas = false;
+        																			break;
+        																		case 3:
+        																			modoSeleccionCoordenadas = false;
+        																			continue;
+        																		default:
+        																			continue;
+        																	}
+    																	}
+    														
+    																	break;
+ 
+    																case 3:
+    																	modoCambiarDomicilio = false;
+    																	continue;
+    																default:
+    																	continue;	
+    															}
+    															
+    														}
+    													}
     													break;
     												case 7:
     													modoGestorVotantes = false;
