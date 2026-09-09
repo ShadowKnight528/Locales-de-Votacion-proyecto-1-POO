@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
     	
     	Vector<Sede> sedes = new Vector<Sede>();
-    	MenuInteractivo menu = new MenuInteractivo(sedes);
+    	MenuInteractivo menu = new MenuInteractivo(sedes, null);
     	menu.leerEntradaUsuario();
     }
 }
