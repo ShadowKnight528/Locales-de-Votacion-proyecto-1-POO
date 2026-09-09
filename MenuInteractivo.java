@@ -71,7 +71,7 @@ public class MenuInteractivo {
     										while (modoGestorVotantes) {
     											System.out.println("Seleccione un numero");
     											System.out.println("1 - Agregar votante a mesa");
-    											System.out.println("2 - Listar votantes asignados a una mes");
+    											System.out.println("2 - Listar votantes asignados a una mesa");
     											System.out.println("3 - Buscar un votante en una mesa");
     											System.out.println("4 - Eliminar la asignacion de un votante a una mesa");
     											System.out.println("5 - Modificar el nombre de un votante");
@@ -99,18 +99,253 @@ public class MenuInteractivo {
     														}
     														esValidoID = true;
     													}
-    													if (buscarSede(idSede) == null) {
+    													Sede sede = buscarSede(idSede);
+    													if (sede == null) {
     														System.out.println("El ID ingresado no corresponde una sede existente");
     														break;
+    													} else {
+    														System.out.println("Ingrese el numero de la mesa a la que desea agregar un votante");
+    														int numMesa = -1;
+    														try {
+    															numMesa = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Valor invalido, ingrese un numero entero!");
+    															continue;
+    														}
+    														Mesa mesaAgregarVotante = buscarMesaEnSede(numMesa, sede);
+    														if (mesaAgregarVotante == null) {
+    															System.out.println("El numero de mesa ingresado no se halla registrado dentro de la sede seleccionada");
+    															break;
+    														} else {
+    															System.out.println("Ingrese los datos del votante que desea agregar a la mesa");
+    															System.out.println("Ingrese el rut del votante");
+    															String rut = null;
+    															try {
+    																rut = lector.readLine();
+    															} catch (IOException e) {
+    																System.out.println("Error al leer el rut, ingrese un String");
+    																continue;
+    															}
+    															System.out.println("Ingrese el nombre del votante");
+    															String nombre = null;
+    															try {
+    																nombre = lector.readLine();
+    															} catch (IOException e) {
+    																System.out.println("Error al leer el nombre, ingrese un String");
+    																continue;
+    															}
+    															System.out.println("Ingrese la componenete x de la coordenada del votante");
+    															double xComponent = 0.0;
+    															try {
+    																xComponent = Double.parseDouble(lector.readLine());
+    															} catch (IllegalArgumentException e) {
+    																System.out.println("Error al leer la componente x, ingrese un double");
+    																continue;
+    															}
+    															System.out.println("Ingrese la componenete y de la coordenada del votante");
+    															double yComponent = 0.0;
+    															try {
+    																yComponent = Double.parseDouble(lector.readLine());
+    															} catch (IllegalArgumentException e) {
+    																System.out.println("Error al leer la componente y, ingrese un double");
+    																continue;
+    															}
+    															Coordenadas residenciaVotanteAgregado = new Coordenadas(xComponent, yComponent);
+    															Votante votanteAgregado = new Votante(rut, nombre, residenciaVotanteAgregado);
+    															try {
+    																mesaAgregarVotante.agregarVotante(votanteAgregado);
+    															} catch (ExcedeCapacidadException e) {
+    																System.out.println(e.getMessage());
+    																break;
+    															}
+    														}
     													}
     													break;
     												case 2:
+    													esValidoID = false;
+    													idSede = -1;
+    													while(!esValidoID) {
+    														System.out.println("Ingrese el ID de la sede a la que pertenece la mesa de la cual desea observar la lista de votantes");
+    														try {
+    															idSede = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Valor invalido, ingrese un numero entero!");
+    															continue;
+    														}
+    														esValidoID = true;
+    													}
+    													sede = buscarSede(idSede);
+    													if (sede == null) {
+    														System.out.println("El ID ingresado no corresponde una sede existente");
+    														break;
+    													} else {
+    														System.out.println("Ingrese el numero de la mesa que desea visualizar su lista de votantes");
+    														int numMesa = -1;
+    														try {
+    															numMesa = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Valor invalido, ingrese un numero entero!");
+    															continue;
+    														}
+    														Mesa mesaAListarVotantes = buscarMesaEnSede(numMesa, sede);
+    														listarVotantesMesa(mesaAListarVotantes);
+    													}
+    														
     													break;
     												case 3:
+    													esValidoID = false;
+    													idSede = -1;
+    													while(!esValidoID) {
+    														System.out.println("Ingrese el ID de la sede a la que pertenece la mesa en la que desea buscar un votante");
+    														try {
+    															idSede = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Valor invalido, ingrese un numero entero!");
+    															continue;
+    														}
+    														esValidoID = true;
+    													}
+    													sede = buscarSede(idSede);
+    													if (sede == null) {
+    														System.out.println("El ID ingresado no corresponde una sede existente");
+    														break;
+    													} else {
+    														System.out.println("Ingrese el numero de la mesa en la que desea buscar un votante");
+    														int numMesa = -1;
+    														try {
+    															numMesa = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Valor invalido, ingrese un numero entero!");
+    															continue;
+    														}
+    														Mesa mesaBuscarVotante = buscarMesaEnSede(numMesa, sede);
+    														System.out.println("Ingrese el RUT del votante que desea buscar en la mesa");
+    														String rut = null;
+    														try {
+    															rut = lector.readLine();
+    														} catch (IOException e) {
+    															System.out.println("Error al leer el rut, ingrese un String");
+    															continue;
+    														}
+    														if (buscarVotanteEnMesa(rut, mesaBuscarVotante) == null) {
+    															System.out.println("No se ha hallado el votante en la mesa solicitada");
+    														}
+    													}
     													break;
     												case 4:
+    													esValidoID = false;
+    													idSede = -1;
+    													while(!esValidoID) {
+    														System.out.println("Ingrese el ID de la sede a la que pertenece la mesa de la que desea eliminar un votante");
+    														try {
+    															idSede = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Valor invalido, ingrese un numero entero!");
+    															continue;
+    														}
+    														esValidoID = true;
+    													}
+    													sede = buscarSede(idSede);
+    													if (sede == null) {
+    														System.out.println("El ID ingresado no corresponde una sede existente");
+    														break;
+    													} else {
+    														System.out.println("Ingrese el numero de la mesa de la que desea eliminar un votante");
+    														int numMesa = -1;
+    														try {
+    															numMesa = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Valor invalido, ingrese un numero entero!");
+    															continue;
+    														}
+    														Mesa mesaQuitarVotante = buscarMesaEnSede(numMesa, sede);
+    														System.out.println("Ingrese el RUT del votante que desea eliminar");
+    														String rut = null;
+    														try {
+    															rut = lector.readLine();
+    														} catch (IOException e) {
+    															System.out.println("Error al leer el rut, ingrese un String");
+    															continue;
+    														}
+    														eliminarVotanteDeMesa(rut, mesaQuitarVotante);
+    													}
     													break;
     												case 5:
+    													esValidoID = false;
+    													idSede = -1;
+    													while(!esValidoID) {
+    														System.out.println("Ingrese el ID de la sede a la que pertenece la mesa del votante que desea modificar su nombre");
+    														try {
+    															idSede = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Valor invalido, ingrese un numero entero!");
+    															continue;
+    														}
+    														esValidoID = true;
+    													}
+    													sede = buscarSede(idSede);
+    													if (sede == null) {
+    														System.out.println("El ID ingresado no corresponde una sede existente");
+    														break;
+    													} else {
+    														System.out.println("Ingrese el numero de la mesa del votante que desea modificar su nombre");
+    														int numMesa = -1;
+    														try {
+    															numMesa = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Valor invalido, ingrese un numero entero!");
+    															continue;
+    														}
+    														Mesa mesaModificarVotante = buscarMesaEnSede(numMesa, sede);
+    														System.out.println("Ingrese el RUT del votante que desea modificar su nombre");
+    														String rut = null;
+    														try {
+    															rut = lector.readLine();
+    														} catch (IOException e) {
+    															System.out.println("Error al leer el rut, ingrese un String");
+    															continue;
+    														}
+    														System.out.println("Ingrese el nuevo nombre del votante");
+    														String nuevo = null;
+    														try {
+    															nuevo = lector.readLine();
+    														} catch (IOException e) {
+    															System.out.println("Error al leer el nuevo nombre, ingrese un String");
+    															continue;
+    														}
+    														boolean opcionValida = false;
+    														int opcionModificarNombreVotante = 0;
+    														while (!opcionValida) {
+    															System.out.println("Ingrese un numero");
+    															System.out.println("1 - Modificar el nombre del votante por medio de su rut y numero de mesa");
+    															System.out.println("2 - Modificar el nombre del votante desde el mismo votante");
+    															System.out.println("3 - Volver");
+    															try {
+    																opcionModificarNombreVotante = Integer.parseInt(lector.readLine());
+    															} catch (IllegalArgumentException e) {
+    																System.out.println("Error al leer la opcion, ingrese un numero entero");
+    																continue;
+    															}
+    															opcionValida = true;
+    														}
+    														switch (opcionModificarNombreVotante) {
+    															case 1:
+    																modificarNombreVotante(rut, mesaModificarVotante, nuevo);
+    																break;
+    															case 2:
+    																Votante votanteModificarNombre = buscarVotanteEnMesa(rut, mesaModificarVotante);
+    																if (votanteModificarNombre == null) {
+    																	System.out.println("El votante no se encuentra en la mesa solicitada");
+    																} else {
+    																	modificarNombreVotante(votanteModificarNombre, nuevo);
+    																}
+    																break;
+    															case 3:
+    																modoGestorVotantes = false;
+    																break;
+    														}
+    													}
+    													
     													break;
     												case 6:
     													break;
@@ -404,4 +639,4 @@ public class MenuInteractivo {
 			return null;
 		}
 	}
-}
+}	
