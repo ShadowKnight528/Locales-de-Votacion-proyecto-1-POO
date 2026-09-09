@@ -261,7 +261,7 @@ public class GestorDeColecciones {
 	}
 	
 	public void listarSedes(Vector<Sede> sedes) {
-		if (sedes == null) {
+		if (sedes == null || sedes.isEmpty()) {
 			System.out.println("No hay sedes disponibles");
 			return;
 		} else {
