@@ -648,8 +648,90 @@ public class MenuInteractivo {
     													}
     													break;
     												case 4:
+    													esValidoID = false;
+    													esValidoNumMesa = false;
+    													idSede = -1;
+    													int numMesaAQuitar = 0;
+    													while(!esValidoID) {
+    														System.out.println("Ingrese el ID de la sede en la que se encuentra la mesa que desea eliminar");
+    														try {
+    															idSede = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Valor invalido, ingrese un numero entero!");
+    															continue;
+    														}
+    														esValidoID = true;
+    													}
+    													Sede sedeQuitarMesa = gestor.buscarSede(idSede);
+    													if (sedeQuitarMesa == null) {
+    														System.out.println("La sede ingresada no existe");
+    														break;
+    													}
+    													while (!esValidoNumMesa) {
+    														System.out.println("Ingrese un numero de mesa");
+    														try {
+    															numMesaAQuitar = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Error al leer el numero de mesa, ingrese un valor entero");
+    															continue;
+    														}
+    														esValidoNumMesa = true;
+    													}
+    													Mesa eliminada = gestor.eliminarMesaDeSede(numMesaAQuitar, sedeQuitarMesa);
+    													if (eliminada == null) {
+    														System.out.println("La mesa no pudo ser eliminada porque no se encuentra en esta sede");
+    													} else {
+    														System.out.println("La mesa ha sido eliminada con exito");
+    													}
     													break;
     												case 5:
+    													esValidoID = false;
+    													esValidoNumMesa = false;
+    													idSede = -1;
+    													int numMesaAModificar = 0;
+    													while(!esValidoID) {
+    														System.out.println("Ingrese el ID de la sede en la que se encuentra la mesa cuya capacidad maxima desea modificar");
+    														try {
+    															idSede = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Valor invalido, ingrese un numero entero!");
+    															continue;
+    														}
+    														esValidoID = true;
+    													}
+    													Sede sedeModificarMesa = gestor.buscarSede(idSede);
+    													if (sedeModificarMesa == null) {
+    														System.out.println("La sede ingresada no existe");
+    														break;
+    													}
+    													while (!esValidoNumMesa) {
+    														System.out.println("Ingrese un numero de mesa");
+    														try {
+    															numMesaAModificar = Integer.parseInt(lector.readLine());
+    														} catch (IllegalArgumentException e) {
+    															System.out.println("Error al leer el numero de mesa, ingrese un valor entero");
+    															continue;
+    														}
+    														esValidoNumMesa = true;
+    													}
+    													Mesa modificada = gestor.buscarMesaEnSede(numMesaAModificar, sedeModificarMesa);
+    													if (modificada == null) {
+    														System.out.println("La mesa no pudo ser encontrada en esta sede");
+    													} else {
+    														esValidaCapMax = false;
+    														int nuevaCapMax = 0;
+    														while (!esValidaCapMax) {
+    															System.out.println("Ingrese la nueva capacidad maxima de la mesa");
+    															try {
+    																nuevaCapMax = Integer.parseInt(lector.readLine());
+    															} catch (IllegalArgumentException e) {
+    																System.out.println("Error al leer la capacidad maxima, intente ingresando un entero");
+    																continue;
+    															}
+    															esValidaCapMax = true;
+    														}
+    														gestor.modificarCapMaxMesa(numMesaAModificar, sedeModificarMesa, nuevaCapMax);
+    													}
     													break;
     												case 6:
     													modoGestionMesas = false;
