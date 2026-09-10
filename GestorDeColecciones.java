@@ -13,6 +13,10 @@ public class GestorDeColecciones implements Serializable {
 		sedes = new Vector<Sede>();
 	}
 	
+	public Vector<Sede> getSedes() {
+	    return sedes;
+	}
+	
 	public GestorDeColecciones(Vector<Sede> sedes) {
 		this.sedes = sedes;
 	}
