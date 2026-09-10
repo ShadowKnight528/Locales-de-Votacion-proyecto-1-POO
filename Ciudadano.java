@@ -1,6 +1,8 @@
 package package_00;
 
-public class Ciudadano {
+import java.io.Serializable;
+
+public class Ciudadano implements Serializable {
 	
 	private String rut;
 	private String nombre;
