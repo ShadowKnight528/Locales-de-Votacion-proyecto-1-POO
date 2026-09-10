@@ -1,12 +1,17 @@
 package package_00;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
-public class GestorDeColecciones {
+public class GestorDeColecciones implements Serializable {
 	
 	private Vector<Sede> sedes;
+	
+	public GestorDeColecciones() {
+		sedes = new Vector<Sede>();
+	}
 	
 	public GestorDeColecciones(Vector<Sede> sedes) {
 		this.sedes = sedes;
