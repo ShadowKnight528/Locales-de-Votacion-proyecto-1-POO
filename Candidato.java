@@ -1,6 +1,8 @@
 package package_00;
 
-public class Candidato extends Ciudadano {
+import java.io.Serializable;
+
+public class Candidato extends Ciudadano implements Serializable {
 	
 	private String partido;
 	
