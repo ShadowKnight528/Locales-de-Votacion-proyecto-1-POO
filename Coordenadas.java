@@ -1,6 +1,8 @@
 package package_00;
 
-public class Coordenadas {
+import java.io.Serializable;
+
+public class Coordenadas implements Serializable {
 	
 	private double x;
 	private double y;
