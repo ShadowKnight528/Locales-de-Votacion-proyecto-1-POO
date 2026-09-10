@@ -775,11 +775,9 @@ public class MenuInteractivo {
     													} else {
     														System.out.println("No se ha encontrado la sede solicitada");
     													}
-    													modoGestionSedes = false;
     													break;
     												case 2:
     													gestor.listarSedes(sedes);
-    													modoGestionSedes = false;
     													break;
     												case 3:
     													modoGestionSedes = false;
