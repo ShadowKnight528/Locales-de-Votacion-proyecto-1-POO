@@ -1,4 +1,5 @@
 package package_00;
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -10,7 +11,7 @@ import java.util.HashMap;
  * 
  */
 
-public class Sede {
+public class Sede implements Serializable {
 	
 	private int id;
 	private int capMax;
