@@ -1,6 +1,8 @@
 package package_00;
 
-public class Votante extends Ciudadano {
+import java.io.Serializable;
+
+public class Votante extends Ciudadano implements Serializable {
 	
 	private boolean estadoVoto;
 	private boolean tieneMesa;
