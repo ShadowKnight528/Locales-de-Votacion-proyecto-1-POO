@@ -1,5 +1,6 @@
 package package_00;
 import java.util.HashMap;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /** 
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  * que lleva dicho candidato
  */
 
-public class Mesa {
+public class Mesa implements Serializable {
 	
 	private int numeroMesa;
 	private int capMax;
