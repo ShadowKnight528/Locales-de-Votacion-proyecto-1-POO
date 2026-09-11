@@ -2,5 +2,6 @@
 Instrucciones de uso:
 
 - Crear un nuevo proyecto java e incluir un paquete de nombre package_00
-- Dentro del paquete importar las clases desde el github
+- Dentro del paquete importar las clases desde github
 - En el archivo module-info.java incluir la instrucción requires java.desktop;
+- Compilar y ejecutar el programa
