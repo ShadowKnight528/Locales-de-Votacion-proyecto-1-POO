@@ -27,6 +27,7 @@ public class MenuInteractivo {
     		System.out.println("Seleccione un numero");
         	System.out.println("1 - Entrar en modo de consola");
         	System.out.println("2 - Entrar en modo de ventana");
+        	System.out.println("3 - Salir");
         	
     		try {
     			opcion = Integer.parseInt(lector.readLine());
@@ -816,6 +817,9 @@ public class MenuInteractivo {
     					ventanaPrincipal.setVisible(true);
     				});
     				break;
+    			case 3:
+    				System.out.println("Hasta luego!");
+    				return;
     			default:
     				System.out.println("La opción ingresada no es valida, intente ingresando 1 o 2");
     				continue;
