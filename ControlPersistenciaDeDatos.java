@@ -69,7 +69,7 @@ public class ControlPersistenciaDeDatos {
                         double x = Double.parseDouble(partes[4].trim());
                         double y = Double.parseDouble(partes[5].trim());
 
-                        // 1. Buscar la sede, si no existe en dentro de la coleccion, se crea
+                        // Buscar la sede, si no existe en dentro de la coleccion, se crea
                         Sede sedeEncontrada = gestorCargado.buscarSede(idSede);
                         if (sedeEncontrada == null) {
                             Coordenadas coordSede = new Coordenadas(0.0, 0.0); // Coordenadas por defecto
@@ -77,14 +77,14 @@ public class ControlPersistenciaDeDatos {
                             gestorCargado.getSedes().add(sedeEncontrada);
                         }
 
-                        // 2. Buscar la mesa en la sede, si no existe se crea
+                        // Buscar la mesa en la sede, si no existe se crea
                         Mesa mesaEncontrada = gestorCargado.buscarMesaEnSede(numMesa, sedeEncontrada);
                         if (mesaEncontrada == null) {
                             mesaEncontrada = new Mesa(numMesa, 50, new HashMap<>(conteoVotosPlantilla));
                             sedeEncontrada.agregarMesa(mesaEncontrada);
                         }
 
-                        // 3. Agregar el votante a la mesa (evitando duplicados si ya estuviera)
+                        // Agregar el votante a la mesa (evitando duplicados si ya estuviera)
                         boolean existeVotante = false;
                         for (Votante vExistente : mesaEncontrada.getListaVotantes()) {
                             if (vExistente.getRut().equals(rut)) {
