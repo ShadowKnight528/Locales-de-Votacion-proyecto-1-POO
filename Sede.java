@@ -1,5 +1,4 @@
 package package_00;
-import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -11,9 +10,8 @@ import java.util.HashMap;
  * 
  */
 
-public class Sede implements Serializable {
+public class Sede {
 	
-	private static final long serialVersionUID = 1L;
 	private int id;
 	private int capMax;
 	private int cuposDisponibles;
