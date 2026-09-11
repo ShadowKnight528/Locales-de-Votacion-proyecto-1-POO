@@ -1,13 +1,11 @@
 package package_00;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
-public class GestorDeColecciones implements Serializable {
+public class GestorDeColecciones {
 	
-	private static final long serialVersionUID = 1L;
 	private Vector<Sede> sedes;
 	
 	public GestorDeColecciones() {
