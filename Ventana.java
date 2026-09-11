@@ -10,22 +10,23 @@ import java.util.HashMap;
 import java.util.Vector;
 
 public class Ventana extends JFrame {
+
     private JTextArea areaTexto;
     private JPanel panelSubOpciones;
-    private GestorDeColecciones gestor;	
+    private GestorDeColecciones gestor;
     private Vector<Sede> sedes;
     private HashMap<String, Integer> conteoVotos;
-    
-    public Ventana(GestorDeColecciones gestor, Vector<Sede> sedes,  HashMap<String, Integer> conteoVotos) {
-    	this.gestor = gestor;
-    	this.sedes = sedes;
+
+    public Ventana(GestorDeColecciones gestor, Vector<Sede> sedes, HashMap<String, Integer> conteoVotos) {
+        this.gestor = gestor;
+        this.sedes = sedes;
         this.conteoVotos = conteoVotos;
         this.setSize(700, 600);
         this.setTitle("Ventana con Opciones");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(true);
         setLayout(new BorderLayout(10, 10));
- 
+
         JPanel panelOpciones = crearPanelOpciones();
         add(panelOpciones, BorderLayout.NORTH);
 
@@ -44,39 +45,57 @@ public class Ventana extends JFrame {
 
         areaTexto.append("Bienvenido! Selecciona una opción...\n");
     }
-    
+
     private JPanel crearPanelOpciones() {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        
+
         JButton gestionVotantes = crearBoton("Gestion de Votantes", new Color(70, 130, 180));
         JButton gestionMesas = crearBoton("Gestion de Mesas", new Color(60, 179, 113));
         JButton gestionSedes = crearBoton("Gestion de Sedes", new Color(255, 140, 0));
+        JButton btnGuardar = crearBoton("Guardar Datos", new Color(128, 0, 128));
         JButton btnLimpiar = crearBoton("Limpiar", Color.RED);
-        
+
         gestionVotantes.addActionListener(e -> mostrarSubOpcionesVotantes());
         gestionMesas.addActionListener(e -> mostrarSubOpcionesMesas());
         gestionSedes.addActionListener(e -> mostrarSubOpcionesSedes());
+        btnGuardar.addActionListener(e -> {
+            PrintStream originalOut = System.out;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PrintStream printStream = new PrintStream(baos);
+            System.setOut(printStream);
+
+            ControlPersistenciaDeDatos.guardar(gestor);
+
+            System.out.flush();
+            System.setOut(originalOut);
+
+            String salidaCapturada = baos.toString();
+            if (!salidaCapturada.isEmpty()) {
+                areaTexto.append(salidaCapturada);
+            }
+        });
         btnLimpiar.addActionListener(e -> {
             areaTexto.setText("");
             panelSubOpciones.removeAll();
             panelSubOpciones.revalidate();
             panelSubOpciones.repaint();
         });
-        
+
         panel.add(gestionVotantes);
         panel.add(gestionMesas);
         panel.add(gestionSedes);
+        panel.add(btnGuardar);
         panel.add(btnLimpiar);
-        
+
         return panel;
     }
 
     private void mostrarSubOpcionesVotantes() {
         panelSubOpciones.removeAll();
         panelSubOpciones.setBorder(BorderFactory.createTitledBorder("Subopciones - Opción 1"));
-        
+
         JButton agregarVotante = crearBotonSub("Agregar votante", new Color(70, 130, 180));
         JButton listarVotantesAsigMesa = crearBotonSub("Listar votantes asignados a una mesa", new Color(70, 130, 180));
         JButton buscarVotanteMesa = crearBotonSub("Buscar un votante en una mesa", new Color(70, 130, 180));
@@ -182,9 +201,9 @@ public class Ventana extends JFrame {
                         return;
                     }
                 }
-            }            
+            }
         });
-        
+
         listarVotantesAsigMesa.addActionListener(e -> {
             boolean esValidoID = false;
             int idSede = -1;
@@ -247,7 +266,7 @@ public class Ventana extends JFrame {
                 }
             }
         });
-        
+
         buscarVotanteMesa.addActionListener(e -> {
             boolean esValidoID = false;
             int idSede = -1;
@@ -309,7 +328,7 @@ public class Ventana extends JFrame {
                 }
             }
         });
-        
+
         eliminarVotanteAsigMesa.addActionListener(e -> {
             boolean esValidoID = false;
             int idSede = -1;
@@ -366,7 +385,7 @@ public class Ventana extends JFrame {
                 gestor.eliminarVotanteDeMesa(rut, mesaQuitarVotante);
             }
         });
-        
+
         modificarVotanteNombre.addActionListener(e -> {
             boolean esValidoID = false;
             int idSede = -1;
@@ -477,7 +496,7 @@ public class Ventana extends JFrame {
                 }
             }
         });
-        
+
         modificarVotanteDomicilio.addActionListener(e -> {
             boolean esValidoID = false;
             int idSede = -1;
@@ -753,13 +772,13 @@ public class Ventana extends JFrame {
                 }
             }
         });
-        
+
         btnVolver.addActionListener(e -> {
             panelSubOpciones.removeAll();
             panelSubOpciones.revalidate();
             panelSubOpciones.repaint();
         });
-        
+
         panelSubOpciones.add(agregarVotante);
         panelSubOpciones.add(listarVotantesAsigMesa);
         panelSubOpciones.add(buscarVotanteMesa);
@@ -767,22 +786,22 @@ public class Ventana extends JFrame {
         panelSubOpciones.add(modificarVotanteNombre);
         panelSubOpciones.add(modificarVotanteDomicilio);
         panelSubOpciones.add(btnVolver);
-        
+
         panelSubOpciones.revalidate();
         panelSubOpciones.repaint();
     }
-    
+
     private void mostrarSubOpcionesMesas() {
         panelSubOpciones.removeAll();
         panelSubOpciones.setBorder(BorderFactory.createTitledBorder("Subopciones - Opción 2"));
-        
+
         JButton agregarMeseASede = crearBotonSub("Agregar mesa a sede", new Color(60, 179, 113));
         JButton listarMesasDeSede = crearBotonSub("Listar mesas de una sede", new Color(60, 179, 113));
         JButton buscarMesa = crearBotonSub("Buscar una mesa", new Color(60, 179, 113));
         JButton retirarMesaSede = crearBotonSub("Retirar mesas de una sede", new Color(60, 179, 113));
         JButton modificarCapMaxMesa = crearBotonSub("Modificar la cantidad maxima de votantes en una mesa", new Color(60, 179, 113));
         JButton btnVolver = crearBotonSub("⬅ Volver", Color.GRAY);
-        
+
         agregarMeseASede.addActionListener(e -> {
             boolean esValidoID = false;
             boolean esValidoNumMesa = false;
@@ -854,8 +873,8 @@ public class Ventana extends JFrame {
             Mesa nueva = new Mesa(numMesaNueva, capMaxMesa, new HashMap<String, Integer>(conteoVotos));
             gestor.agregarMesaASede(nueva, sedeAgregarMesa);
         });
-        
-        listarMesasDeSede.addActionListener(e -> { 
+
+        listarMesasDeSede.addActionListener(e -> {
             boolean esValidoID = false;
             int idSede = -1;
             while (!esValidoID) {
@@ -903,8 +922,8 @@ public class Ventana extends JFrame {
                 areaTexto.append(salidaCapturada);
             }
         });
-        
-        buscarMesa.addActionListener(e -> { 
+
+        buscarMesa.addActionListener(e -> {
             boolean esValidoID = false;
             boolean esValidoNumMesa = false;
             int idSede = -1;
@@ -984,8 +1003,8 @@ public class Ventana extends JFrame {
                 areaTexto.append("La mesa no ha sido encontrada\n");
             }
         });
-        
-        retirarMesaSede.addActionListener(e -> { 
+
+        retirarMesaSede.addActionListener(e -> {
             boolean esValidoID = false;
             boolean esValidoNumMesa = false;
             int idSede = -1;
@@ -1040,8 +1059,8 @@ public class Ventana extends JFrame {
                 areaTexto.append("La mesa ha sido eliminada con exito\n");
             }
         });
-        
-        modificarCapMaxMesa.addActionListener(e -> { 
+
+        modificarCapMaxMesa.addActionListener(e -> {
             boolean esValidoID = false;
             boolean esValidoNumMesa = false;
             boolean esValidaCapMax = false;
@@ -1116,33 +1135,32 @@ public class Ventana extends JFrame {
                 gestor.modificarCapMaxMesa(numMesaAModificar, sedeModificarMesa, nuevaCapMax);
             }
         });
-        
-        
+
         btnVolver.addActionListener(e -> {
             panelSubOpciones.removeAll();
             panelSubOpciones.revalidate();
             panelSubOpciones.repaint();
         });
-        
+
         panelSubOpciones.add(agregarMeseASede);
         panelSubOpciones.add(listarMesasDeSede);
         panelSubOpciones.add(buscarMesa);
         panelSubOpciones.add(retirarMesaSede);
         panelSubOpciones.add(modificarCapMaxMesa);
         panelSubOpciones.add(btnVolver);
-        
+
         panelSubOpciones.revalidate();
         panelSubOpciones.repaint();
     }
-    
+
     private void mostrarSubOpcionesSedes() {
         panelSubOpciones.removeAll();
         panelSubOpciones.setBorder(BorderFactory.createTitledBorder("Subopciones - Opción 3"));
-        
+
         JButton buscarSedeId = crearBotonSub("Buscar una sede por su id", new Color(255, 140, 0));
         JButton listarSedes = crearBotonSub("Listar sedes", new Color(255, 140, 0));
         JButton btnVolver = crearBotonSub("⬅ Volver", Color.GRAY);
-        
+
         buscarSedeId.addActionListener(e -> {
             int idSedeBuscada = 0;
 
@@ -1171,7 +1189,7 @@ public class Ventana extends JFrame {
                 areaTexto.append("No se ha encontrado la sede solicitada\n");
             }
         });
-        
+
         listarSedes.addActionListener(e -> {
             PrintStream originalOut = System.out;
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -1191,20 +1209,21 @@ public class Ventana extends JFrame {
                 areaTexto.append(salidaCapturada);
             }
         });
-        
+
         btnVolver.addActionListener(e -> {
             panelSubOpciones.removeAll();
             panelSubOpciones.revalidate();
             panelSubOpciones.repaint();
         });
-        
+
         panelSubOpciones.add(buscarSedeId);
         panelSubOpciones.add(listarSedes);
         panelSubOpciones.add(btnVolver);
-        
+
         panelSubOpciones.revalidate();
         panelSubOpciones.repaint();
     }
+
     private JButton crearBoton(String texto, Color color) {
         JButton boton = new JButton(texto);
         boton.setBackground(color);
@@ -1215,7 +1234,7 @@ public class Ventana extends JFrame {
         boton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
         return boton;
     }
-    
+
     private JButton crearBotonSub(String texto, Color color) {
         JButton boton = new JButton(texto);
         boton.setBackground(color);
