@@ -1,7 +1,6 @@
 package package_00;
 
 public class Candidato extends Ciudadano {
-	
 	private String partido;
 	
 	public Candidato(String rut, String nombre, String partido) {
