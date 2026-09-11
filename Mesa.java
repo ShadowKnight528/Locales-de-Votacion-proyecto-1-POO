@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 public class Mesa implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private int numeroMesa;
 	private int capMax;
 	private ArrayList<Votante> listaVotantes;
