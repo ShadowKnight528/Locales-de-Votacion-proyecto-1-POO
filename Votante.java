@@ -1,10 +1,7 @@
 package package_00;
 
-import java.io.Serializable;
-
-public class Votante extends Ciudadano implements Serializable {
+public class Votante extends Ciudadano {
 	
-	private static final long serialVersionUID = 1L;
 	private boolean estadoVoto;
 	private boolean tieneMesa;
 	private Coordenadas residencia;
