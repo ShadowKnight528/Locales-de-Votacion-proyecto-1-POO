@@ -6,15 +6,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Vector;
 
 public class Ventana extends JFrame {
     private JTextArea areaTexto;
     private JPanel panelSubOpciones;
-    private GestorDeColecciones gestor;
+    private GestorDeColecciones gestor;	
+    private Vector<Sede> sedes;
+    private HashMap<String, Integer> conteoVotos;
     
-    public Ventana(GestorDeColecciones gestor) {
+    public Ventana(GestorDeColecciones gestor, Vector<Sede> sedes,  HashMap<String, Integer> conteoVotos) {
     	this.gestor = gestor;
-    	
+    	this.sedes = sedes;
+        this.conteoVotos = conteoVotos;
         this.setSize(700, 600);
         this.setTitle("Ventana con Opciones");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -474,7 +479,279 @@ public class Ventana extends JFrame {
         });
         
         modificarVotanteDomicilio.addActionListener(e -> {
-            areaTexto.append("Aquí va la accion de mover al votante de domicilio\n");
+            boolean esValidoID = false;
+            int idSede = -1;
+            while (!esValidoID) {
+                String input = JOptionPane.showInputDialog(
+                        this,
+                        "Ingrese el ID de la sede a la que pertenece la mesa del votante que desea modificar su domicilio"
+                );
+                if (input == null) {
+                    areaTexto.append("Operación cancelada\n");
+                    return;
+                }
+                try {
+                    idSede = Integer.parseInt(input.trim());
+                } catch (NumberFormatException ex) {
+                    areaTexto.append("Valor invalido, ingrese un numero entero!\n");
+                    continue;
+                }
+                esValidoID = true;
+            }
+
+            Sede sede = gestor.buscarSede(idSede);
+            if (sede == null) {
+                areaTexto.append("El ID ingresado no corresponde una sede existente\n");
+                return;
+            } else {
+                String inputMesa = JOptionPane.showInputDialog(
+                        this,
+                        "Ingrese el numero de la mesa del votante que desea modificar su domicilio"
+                );
+                if (inputMesa == null) {
+                    areaTexto.append("Operación cancelada\n");
+                    return;
+                }
+                int numMesa = -1;
+                try {
+                    numMesa = Integer.parseInt(inputMesa.trim());
+                } catch (NumberFormatException ex) {
+                    areaTexto.append("Valor invalido, ingrese un numero entero!\n");
+                    return;
+                }
+
+                Mesa mesaModificarVotante = gestor.buscarMesaEnSede(numMesa, sede);
+
+                String rut = JOptionPane.showInputDialog(
+                        this,
+                        "Ingrese el RUT del votante que desea modificar su domicilio"
+                );
+                if (rut == null) {
+                    areaTexto.append("Operación cancelada\n");
+                    return;
+                }
+
+                boolean modoCambiarDomicilio = true;
+                while (modoCambiarDomicilio) {
+                    String[] opcionesMenu = {
+                        "1 - Modificar el domicilio a traves del mismo votante",
+                        "2 - Modificar el domicilio usando el rut y la mesa del votante",
+                        "3 - Volver"
+                    };
+                    String seleccion = (String) JOptionPane.showInputDialog(
+                            this,
+                            "Ingrese un numero\n"
+                            + "1 - Modificar el domicilio a traves del mismo votante\n"
+                            + "2 - Modificar el domicilio usando el rut y la mesa del votante\n"
+                            + "3 - Volver",
+                            "Modificar domicilio",
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            opcionesMenu,
+                            opcionesMenu[0]
+                    );
+                    if (seleccion == null) {
+                        areaTexto.append("Operación cancelada\n");
+                        return;
+                    }
+
+                    int opcionModificarDomicilio = 0;
+                    try {
+                        opcionModificarDomicilio = Integer.parseInt(seleccion.substring(0, 1));
+                    } catch (NumberFormatException ex) {
+                        areaTexto.append("Error al procesar la opcion, ingrese un numero entero!\n");
+                        continue;
+                    }
+
+                    // Variables compartidas entre cases (declaradas antes del switch)
+                    boolean modoSeleccionCoordenadas;
+                    double xComponent;
+                    double yComponent;
+
+                    switch (opcionModificarDomicilio) {
+                        case 1:
+                            Votante v = gestor.buscarVotanteEnMesa(rut, mesaModificarVotante);
+                            modoSeleccionCoordenadas = true;
+                            xComponent = 0.0;
+                            yComponent = 0.0;
+
+                            String inputX1 = JOptionPane.showInputDialog(
+                                    this,
+                                    "Ingrese la componente x de la nueva ubicacion"
+                            );
+                            if (inputX1 == null) {
+                                areaTexto.append("Operación cancelada\n");
+                                return;
+                            }
+                            try {
+                                xComponent = Double.parseDouble(inputX1.trim());
+                            } catch (NumberFormatException ex) {
+                                areaTexto.append("Error al leer la componente x, ingrese un double!\n");
+                                continue;
+                            }
+
+                            String inputY1 = JOptionPane.showInputDialog(
+                                    this,
+                                    "Ingrese la componente y de la nueva ubicacion"
+                            );
+                            if (inputY1 == null) {
+                                areaTexto.append("Operación cancelada\n");
+                                return;
+                            }
+                            try {
+                                yComponent = Double.parseDouble(inputY1.trim());
+                            } catch (NumberFormatException ex) {
+                                areaTexto.append("Error al leer la componente y, ingrese un double!\n");
+                                continue;
+                            }
+
+                            while (modoSeleccionCoordenadas) {
+                                String[] opcionesCoord = {
+                                    "1 - Modificar el domicilio usando la ubicacion concreta",
+                                    "2 - Modificar el domicilio usando las compenentes x e y de forma independiente",
+                                    "3 - Volver"
+                                };
+                                String selCoord = (String) JOptionPane.showInputDialog(
+                                        this,
+                                        "Ingrese un numero\n"
+                                        + "1 - Modificar el domicilio usando la ubicacion concreta\n"
+                                        + "2 - Modificar el domicilio usando las compenentes x e y de forma independiente\n"
+                                        + "3 - Volver",
+                                        "Modificar domicilio",
+                                        JOptionPane.QUESTION_MESSAGE,
+                                        null,
+                                        opcionesCoord,
+                                        opcionesCoord[0]
+                                );
+                                if (selCoord == null) {
+                                    areaTexto.append("Operación cancelada\n");
+                                    return;
+                                }
+
+                                int opcionSeleccionCoordenadas = 0;
+                                try {
+                                    opcionSeleccionCoordenadas = Integer.parseInt(selCoord.substring(0, 1));
+                                } catch (NumberFormatException ex) {
+                                    areaTexto.append("Error al leer la opcion, ingrese un numero entero!\n");
+                                    continue;
+                                }
+
+                                switch (opcionSeleccionCoordenadas) {
+                                    case 1:
+                                        Coordenadas nuevaUbicacion = new Coordenadas(xComponent, yComponent);
+                                        gestor.modificarResidenciaVotante(v, nuevaUbicacion);
+                                        areaTexto.append("Domicilio actualizado con exito\n");
+                                        modoSeleccionCoordenadas = false;
+                                        break;
+                                    case 2:
+                                        gestor.modificarResidenciaVotante(v, xComponent, yComponent);
+                                        areaTexto.append("Domicilio actualizado con exito\n");
+                                        modoSeleccionCoordenadas = false;
+                                        break;
+                                    case 3:
+                                        modoSeleccionCoordenadas = false;
+                                        break;
+                                    default:
+                                        continue;
+                                }
+                            }
+                            break;
+
+                        case 2:
+                            modoSeleccionCoordenadas = true;
+                            xComponent = 0.0;
+                            yComponent = 0.0;
+
+                            String inputX2 = JOptionPane.showInputDialog(
+                                    this,
+                                    "Ingrese la componente x de la nueva ubicacion"
+                            );
+                            if (inputX2 == null) {
+                                areaTexto.append("Operación cancelada\n");
+                                return;
+                            }
+                            try {
+                                xComponent = Double.parseDouble(inputX2.trim());
+                            } catch (NumberFormatException ex) {
+                                areaTexto.append("Error al leer la componente x, ingrese un double!\n");
+                                continue;
+                            }
+
+                            String inputY2 = JOptionPane.showInputDialog(
+                                    this,
+                                    "Ingrese la componente y de la nueva ubicacion"
+                            );
+                            if (inputY2 == null) {
+                                areaTexto.append("Operación cancelada\n");
+                                return;
+                            }
+                            try {
+                                yComponent = Double.parseDouble(inputY2.trim());
+                            } catch (NumberFormatException ex) {
+                                areaTexto.append("Error al leer la componente y, ingrese un double!\n");
+                                continue;
+                            }
+
+                            while (modoSeleccionCoordenadas) {
+                                String[] opcionesCoord = {
+                                    "1 - Modificar el domicilio usando la ubicacion concreta",
+                                    "2 - Modificar el domicilio usando las compenentes x e y de forma independiente",
+                                    "3 - Volver"
+                                };
+                                String selCoord = (String) JOptionPane.showInputDialog(
+                                        this,
+                                        "Ingrese un numero\n"
+                                        + "1 - Modificar el domicilio usando la ubicacion concreta\n"
+                                        + "2 - Modificar el domicilio usando las compenentes x e y de forma independiente\n"
+                                        + "3 - Volver",
+                                        "Modificar domicilio",
+                                        JOptionPane.QUESTION_MESSAGE,
+                                        null,
+                                        opcionesCoord,
+                                        opcionesCoord[0]
+                                );
+                                if (selCoord == null) {
+                                    areaTexto.append("Operación cancelada\n");
+                                    return;
+                                }
+
+                                int opcionSeleccionCoordenadas = 0;
+                                try {
+                                    opcionSeleccionCoordenadas = Integer.parseInt(selCoord.substring(0, 1));
+                                } catch (NumberFormatException ex) {
+                                    areaTexto.append("Error al leer la opcion, ingrese un numero entero!\n");
+                                    continue;
+                                }
+
+                                switch (opcionSeleccionCoordenadas) {
+                                    case 1:
+                                        Coordenadas nuevaUbicacion = new Coordenadas(xComponent, yComponent);
+                                        gestor.modificarResidenciaVotante(rut, mesaModificarVotante, nuevaUbicacion);
+                                        areaTexto.append("Domicilio actualizado con exito\n");
+                                        modoSeleccionCoordenadas = false;
+                                        break;
+                                    case 2:
+                                        gestor.modificarResidenciaVotante(rut, mesaModificarVotante, xComponent, yComponent);
+                                        areaTexto.append("Domicilio actualizado con exito\n");
+                                        modoSeleccionCoordenadas = false;
+                                        break;
+                                    case 3:
+                                        modoSeleccionCoordenadas = false;
+                                        break;
+                                    default:
+                                        continue;
+                                }
+                            }
+                            break;
+
+                        case 3:
+                            modoCambiarDomicilio = false;
+                            continue;
+                        default:
+                            continue;
+                    }
+                }
+            }
         });
         
         btnVolver.addActionListener(e -> {
@@ -499,13 +776,347 @@ public class Ventana extends JFrame {
         panelSubOpciones.removeAll();
         panelSubOpciones.setBorder(BorderFactory.createTitledBorder("Subopciones - Opción 2"));
         
-        JButton btnSub1 = crearBotonSub("Acción 1", new Color(60, 179, 113));
+        JButton agregarMeseASede = crearBotonSub("Agregar mesa a sede", new Color(60, 179, 113));
+        JButton listarMesasDeSede = crearBotonSub("Listar mesas de una sede", new Color(60, 179, 113));
+        JButton buscarMesa = crearBotonSub("Buscar una mesa", new Color(60, 179, 113));
+        JButton retirarMesaSede = crearBotonSub("Retirar mesas de una sede", new Color(60, 179, 113));
+        JButton modificarCapMaxMesa = crearBotonSub("Modificar la cantidad maxima de votantes en una mesa", new Color(60, 179, 113));
         JButton btnVolver = crearBotonSub("⬅ Volver", Color.GRAY);
         
-        btnSub1.addActionListener(e -> {
-            areaTexto.append("\n=== ACCIÓN 1 DE OPCIÓN 2 ===\n");
-            areaTexto.append("Acción personalizada para Opción 2\n\n");
+        agregarMeseASede.addActionListener(e -> {
+            boolean esValidoID = false;
+            boolean esValidoNumMesa = false;
+            boolean esValidaCapMax = false;
+            int idSede = -1;
+            int numMesaNueva = 0;
+            int capMaxMesa = 0;
+
+            while (!esValidoID) {
+                String input = JOptionPane.showInputDialog(
+                        this,
+                        "Ingrese el ID de la sede a la desea agregar una mesa"
+                );
+                if (input == null) {
+                    areaTexto.append("Operación cancelada\n");
+                    return;
+                }
+                try {
+                    idSede = Integer.parseInt(input.trim());
+                } catch (NumberFormatException ex) {
+                    areaTexto.append("Valor invalido, ingrese un numero entero!\n");
+                    continue;
+                }
+                esValidoID = true;
+            }
+
+            Sede sedeAgregarMesa = gestor.buscarSede(idSede);
+            if (sedeAgregarMesa == null) {
+                areaTexto.append("La sede ingresada no existe\n");
+                return;
+            }
+
+            while (!esValidoNumMesa) {
+                String input = JOptionPane.showInputDialog(
+                        this,
+                        "Ingrese un numero de mesa"
+                );
+                if (input == null) {
+                    areaTexto.append("Operación cancelada\n");
+                    return;
+                }
+                try {
+                    numMesaNueva = Integer.parseInt(input.trim());
+                } catch (NumberFormatException ex) {
+                    areaTexto.append("Error al leer el numero de mesa, ingrese un valor entero\n");
+                    continue;
+                }
+                esValidoNumMesa = true;
+            }
+
+            while (!esValidaCapMax) {
+                String input = JOptionPane.showInputDialog(
+                        this,
+                        "Ingrese la capacidad maxima de la mesa que desea agregar"
+                );
+                if (input == null) {
+                    areaTexto.append("Operación cancelada\n");
+                    return;
+                }
+                try {
+                    capMaxMesa = Integer.parseInt(input.trim());
+                } catch (NumberFormatException ex) {
+                    areaTexto.append("Error al leer la capacidad maxima, ingrese un valor entero\n");
+                    continue;
+                }
+                esValidaCapMax = true;
+            }
+
+            Mesa nueva = new Mesa(numMesaNueva, capMaxMesa, new HashMap<String, Integer>(conteoVotos));
+            gestor.agregarMesaASede(nueva, sedeAgregarMesa);
         });
+        
+        listarMesasDeSede.addActionListener(e -> { 
+            boolean esValidoID = false;
+            int idSede = -1;
+            while (!esValidoID) {
+                String input = JOptionPane.showInputDialog(
+                        this,
+                        "Ingrese el ID de la sede donde se encuentran las mesas que desea listar"
+                );
+                if (input == null) {
+                    areaTexto.append("Operación cancelada\n");
+                    return;
+                }
+                try {
+                    idSede = Integer.parseInt(input.trim());
+                } catch (NumberFormatException ex) {
+                    areaTexto.append("Valor invalido, ingrese un numero entero!\n");
+                    continue;
+                }
+                esValidoID = true;
+            }
+
+            Sede sedeListarMesas = gestor.buscarSede(idSede);
+            if (sedeListarMesas == null) {
+                areaTexto.append("La sede ingresada no existe\n");
+                return;
+            }
+
+            // ============================================================
+            // REDIRIGIR System.out PARA CAPTURAR LA SALIDA DEL MÉTODO
+            // ============================================================
+            PrintStream originalOut = System.out;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PrintStream printStream = new PrintStream(baos);
+            System.setOut(printStream);
+
+            // Llamar al método que imprime en consola
+            gestor.listarMesasSede(sedeListarMesas);
+
+            // Restaurar System.out
+            System.out.flush();
+            System.setOut(originalOut);
+
+            // Mostrar lo capturado en el área de texto
+            String salidaCapturada = baos.toString();
+            if (!salidaCapturada.isEmpty()) {
+                areaTexto.append(salidaCapturada);
+            }
+        });
+        
+        buscarMesa.addActionListener(e -> { 
+            boolean esValidoID = false;
+            boolean esValidoNumMesa = false;
+            int idSede = -1;
+            int numMesaBuscada = 0;
+
+            while (!esValidoID) {
+                String input = JOptionPane.showInputDialog(
+                        this,
+                        "Ingrese el ID de la sede en la que desea buscar una mesa"
+                );
+                if (input == null) {
+                    areaTexto.append("Operación cancelada\n");
+                    return;
+                }
+                try {
+                    idSede = Integer.parseInt(input.trim());
+                } catch (NumberFormatException ex) {
+                    areaTexto.append("Valor invalido, ingrese un numero entero!\n");
+                    continue;
+                }
+                esValidoID = true;
+            }
+
+            Sede sedeBuscarMesa = gestor.buscarSede(idSede);
+            if (sedeBuscarMesa == null) {
+                areaTexto.append("La sede ingresada no existe\n");
+                return;
+            }
+
+            while (!esValidoNumMesa) {
+                String input = JOptionPane.showInputDialog(
+                        this,
+                        "Ingrese un numero de mesa"
+                );
+                if (input == null) {
+                    areaTexto.append("Operación cancelada\n");
+                    return;
+                }
+                try {
+                    numMesaBuscada = Integer.parseInt(input.trim());
+                } catch (NumberFormatException ex) {
+                    areaTexto.append("Error al leer el numero de mesa, ingrese un valor entero\n");
+                    continue;
+                }
+                esValidoNumMesa = true;
+            }
+
+            Mesa buscada = gestor.buscarMesaEnSede(numMesaBuscada, sedeBuscarMesa);
+            if (buscada != null) {
+                areaTexto.append("Mesa numero " + buscada.getNumeroMesa() + " encontrada con exito\n");
+                areaTexto.append("Capacidad maxima de la mesa: " + buscada.getCapMax() + "\n");
+                if (buscada.getListaVotantes() != null && !buscada.getListaVotantes().isEmpty()) {
+                    areaTexto.append("Lista de votantes asignados a esta mesa: \n");
+
+                    // ============================================================
+                    // REDIRIGIR System.out PARA CAPTURAR LA SALIDA DEL MÉTODO
+                    // ============================================================
+                    PrintStream originalOut = System.out;
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    PrintStream printStream = new PrintStream(baos);
+                    System.setOut(printStream);
+
+                    // Llamar al método que imprime en consola
+                    gestor.listarVotantesMesa(buscada);
+
+                    // Restaurar System.out
+                    System.out.flush();
+                    System.setOut(originalOut);
+
+                    // Mostrar lo capturado en el área de texto
+                    String salidaCapturada = baos.toString();
+                    if (!salidaCapturada.isEmpty()) {
+                        areaTexto.append(salidaCapturada);
+                    }
+                }
+            } else {
+                areaTexto.append("La mesa no ha sido encontrada\n");
+            }
+        });
+        
+        retirarMesaSede.addActionListener(e -> { 
+            boolean esValidoID = false;
+            boolean esValidoNumMesa = false;
+            int idSede = -1;
+            int numMesaAQuitar = 0;
+
+            while (!esValidoID) {
+                String input = JOptionPane.showInputDialog(
+                        this,
+                        "Ingrese el ID de la sede en la que se encuentra la mesa que desea eliminar"
+                );
+                if (input == null) {
+                    areaTexto.append("Operación cancelada\n");
+                    return;
+                }
+                try {
+                    idSede = Integer.parseInt(input.trim());
+                } catch (NumberFormatException ex) {
+                    areaTexto.append("Valor invalido, ingrese un numero entero!\n");
+                    continue;
+                }
+                esValidoID = true;
+            }
+
+            Sede sedeQuitarMesa = gestor.buscarSede(idSede);
+            if (sedeQuitarMesa == null) {
+                areaTexto.append("La sede ingresada no existe\n");
+                return;
+            }
+
+            while (!esValidoNumMesa) {
+                String input = JOptionPane.showInputDialog(
+                        this,
+                        "Ingrese un numero de mesa"
+                );
+                if (input == null) {
+                    areaTexto.append("Operación cancelada\n");
+                    return;
+                }
+                try {
+                    numMesaAQuitar = Integer.parseInt(input.trim());
+                } catch (NumberFormatException ex) {
+                    areaTexto.append("Error al leer el numero de mesa, ingrese un valor entero\n");
+                    continue;
+                }
+                esValidoNumMesa = true;
+            }
+
+            Mesa eliminada = gestor.eliminarMesaDeSede(numMesaAQuitar, sedeQuitarMesa);
+            if (eliminada == null) {
+                areaTexto.append("La mesa no pudo ser eliminada porque no se encuentra en esta sede\n");
+            } else {
+                areaTexto.append("La mesa ha sido eliminada con exito\n");
+            }
+        });
+        
+        modificarCapMaxMesa.addActionListener(e -> { 
+            boolean esValidoID = false;
+            boolean esValidoNumMesa = false;
+            boolean esValidaCapMax = false;
+            int idSede = -1;
+            int numMesaAModificar = 0;
+
+            while (!esValidoID) {
+                String input = JOptionPane.showInputDialog(
+                        this,
+                        "Ingrese el ID de la sede en la que se encuentra la mesa cuya capacidad maxima desea modificar"
+                );
+                if (input == null) {
+                    areaTexto.append("Operación cancelada\n");
+                    return;
+                }
+                try {
+                    idSede = Integer.parseInt(input.trim());
+                } catch (NumberFormatException ex) {
+                    areaTexto.append("Valor invalido, ingrese un numero entero!\n");
+                    continue;
+                }
+                esValidoID = true;
+            }
+
+            Sede sedeModificarMesa = gestor.buscarSede(idSede);
+            if (sedeModificarMesa == null) {
+                areaTexto.append("La sede ingresada no existe\n");
+                return;
+            }
+
+            while (!esValidoNumMesa) {
+                String input = JOptionPane.showInputDialog(
+                        this,
+                        "Ingrese un numero de mesa"
+                );
+                if (input == null) {
+                    areaTexto.append("Operación cancelada\n");
+                    return;
+                }
+                try {
+                    numMesaAModificar = Integer.parseInt(input.trim());
+                } catch (NumberFormatException ex) {
+                    areaTexto.append("Error al leer el numero de mesa, ingrese un valor entero\n");
+                    continue;
+                }
+                esValidoNumMesa = true;
+            }
+
+            Mesa modificada = gestor.buscarMesaEnSede(numMesaAModificar, sedeModificarMesa);
+            if (modificada == null) {
+                areaTexto.append("La mesa no pudo ser encontrada en esta sede\n");
+            } else {
+                esValidaCapMax = false;
+                int nuevaCapMax = 0;
+                while (!esValidaCapMax) {
+                    String input = JOptionPane.showInputDialog(
+                            this,
+                            "Ingrese la nueva capacidad maxima de la mesa"
+                    );
+                    if (input == null) {
+                        areaTexto.append("Operación cancelada\n");
+                        return;
+                    }
+                    try {
+                        nuevaCapMax = Integer.parseInt(input.trim());
+                    } catch (NumberFormatException ex) {
+                        areaTexto.append("Error al leer la capacidad maxima, intente ingresando un entero\n");
+                        continue;
+                    }
+                    esValidaCapMax = true;
+                }
+                gestor.modificarCapMaxMesa(numMesaAModificar, sedeModificarMesa, nuevaCapMax);
+            }
+        });
+        
         
         btnVolver.addActionListener(e -> {
             panelSubOpciones.removeAll();
@@ -513,7 +1124,11 @@ public class Ventana extends JFrame {
             panelSubOpciones.repaint();
         });
         
-        panelSubOpciones.add(btnSub1);
+        panelSubOpciones.add(agregarMeseASede);
+        panelSubOpciones.add(listarMesasDeSede);
+        panelSubOpciones.add(buscarMesa);
+        panelSubOpciones.add(retirarMesaSede);
+        panelSubOpciones.add(modificarCapMaxMesa);
         panelSubOpciones.add(btnVolver);
         
         panelSubOpciones.revalidate();
@@ -524,11 +1139,57 @@ public class Ventana extends JFrame {
         panelSubOpciones.removeAll();
         panelSubOpciones.setBorder(BorderFactory.createTitledBorder("Subopciones - Opción 3"));
         
-        JButton btnSub1 = crearBotonSub("Accion 1", new Color(255, 140, 0));
+        JButton buscarSedeId = crearBotonSub("Buscar una sede por su id", new Color(255, 140, 0));
+        JButton listarSedes = crearBotonSub("Listar sedes", new Color(255, 140, 0));
         JButton btnVolver = crearBotonSub("⬅ Volver", Color.GRAY);
         
-        btnSub1.addActionListener(e -> {
-            areaTexto.append("Acción de herramienta 1\n\n");
+        buscarSedeId.addActionListener(e -> {
+            int idSedeBuscada = 0;
+
+            String input = JOptionPane.showInputDialog(
+                    this,
+                    "Ingrese el ID de la sede que busca"
+            );
+            if (input == null) {
+                areaTexto.append("Operación cancelada\n");
+                return;
+            }
+            try {
+                idSedeBuscada = Integer.parseInt(input.trim());
+            } catch (NumberFormatException ex) {
+                areaTexto.append("Error al procesar la opcion, ingrese un numero entero!\n");
+                return;
+            }
+
+            Sede buscada = gestor.buscarSede(idSedeBuscada);
+            if (buscada != null) {
+                areaTexto.append("Sede encontrada con exito\n");
+                if (buscada.getUbicacion() != null) {
+                    areaTexto.append("Ubicacion de la sede: " + buscada.getUbicacion().getX() + ", " + buscada.getUbicacion().getY() + "\n");
+                }
+            } else {
+                areaTexto.append("No se ha encontrado la sede solicitada\n");
+            }
+        });
+        
+        listarSedes.addActionListener(e -> {
+            PrintStream originalOut = System.out;
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PrintStream printStream = new PrintStream(baos);
+            System.setOut(printStream);
+
+            // Llamar al método que imprime en consola
+            gestor.listarSedes(sedes);
+
+            // Restaurar System.out
+            System.out.flush();
+            System.setOut(originalOut);
+
+            // Mostrar lo capturado en el área de texto
+            String salidaCapturada = baos.toString();
+            if (!salidaCapturada.isEmpty()) {
+                areaTexto.append(salidaCapturada);
+            }
         });
         
         btnVolver.addActionListener(e -> {
@@ -537,7 +1198,8 @@ public class Ventana extends JFrame {
             panelSubOpciones.repaint();
         });
         
-        panelSubOpciones.add(btnSub1);
+        panelSubOpciones.add(buscarSedeId);
+        panelSubOpciones.add(listarSedes);
         panelSubOpciones.add(btnVolver);
         
         panelSubOpciones.revalidate();
