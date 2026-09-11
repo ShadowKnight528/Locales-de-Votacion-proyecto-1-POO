@@ -10,6 +10,7 @@ Instrucciones de uso:
 - Ambas mesas cuentan con un votantes ya inicializado
 - Al ejecutar el programa se le pregunta al usuario si quiere entrar en modo consola o en modo ventana
 - Es importante que si se elige el modo ventana y se hacen cambios en los datos que almacena el programa no se cierre o se detenga el programa de golpe
-- Para que los cambios se guarden desde el modo consola se debe ingresar el numero que corresponde a la opción de volver de manera iterativa hasta llegar al botón      que dice salir
-- Al ingresar el numero que corresponde al botón salir en consola los cambios se guardaran en el csv
+- Para que los cambios se guarden desde el modo consola, se debe ingresar el numero que corresponde a la opción de volver sucesivamente hasta que aparezca que
+  aparezca la opción de salir
+- Al ingresar el número correspondiente al botón de salir en consola los cambios se guardaran en el csv
 - En el caso de elegir el modo ventana es importante apretar el botón que dice guardar datos para guardar los cambios en el csv
