@@ -811,7 +811,7 @@ public class MenuInteractivo {
     				break;
     			case 2:
     				javax.swing.SwingUtilities.invokeLater(() -> {
-    					Ventana ventanaPrincipal = new Ventana(gestor);
+    					Ventana ventanaPrincipal = new Ventana(gestor, sedes, conteoVotos);
     					ventanaPrincipal.setLocationRelativeTo(null);
     					ventanaPrincipal.setVisible(true);
     				});
