@@ -1,9 +1,7 @@
 package package_00;
 
-import java.io.Serializable;
-
-public class Ciudadano implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class Ciudadano {
+	
 	private String rut;
 	private String nombre;
 	
