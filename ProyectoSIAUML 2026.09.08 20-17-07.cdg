@@ -2,7 +2,7 @@
 
 <ClassDiagram name="ProyectoSIAUML">
   <ClassDiagramComponents>
-    <Class name="BusquedaFallidaException" package="package_00" visibility="public" xPosition="18.0" yPosition="39.0">
+    <Class name="BusquedaFallidaException" package="package_00" visibility="public" xPosition="20.0" yPosition="20.0">
       <Fields/>
       <Constructors>
         <Constructor visibility="public">
@@ -11,8 +11,9 @@
       </Constructors>
       <Methods/>
     </Class>
-    <Class name="Candidato" package="package_00" visibility="public" xPosition="323.0" yPosition="39.0">
+    <Class name="Candidato" package="package_00" visibility="public" xPosition="315.0" yPosition="39.0">
       <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
         <Field name="partido" type="String" visibility="private"/>
       </Fields>
       <Constructors>
@@ -30,8 +31,9 @@
         <Method name="obtenerDatos" returnType="String" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="Ciudadano" package="package_00" visibility="public" xPosition="684.0" yPosition="11.0">
+    <Class name="Ciudadano" package="package_00" visibility="public" xPosition="667.0" yPosition="10.0">
       <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
         <Field name="rut" type="String" visibility="private"/>
         <Field name="nombre" type="String" visibility="private"/>
       </Fields>
@@ -53,8 +55,21 @@
         <Method name="obtenerDatos" returnType="String" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="Coordenadas" package="package_00" visibility="public" xPosition="1028.0" yPosition="83.0">
+    <Class name="ControlPersistenciaDeDatos" package="package_00" visibility="public" xPosition="920.0" yPosition="20.0">
       <Fields>
+        <Field name="ARCHIVO" type="String" visibility="private" isStatic="true" isFinal="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="guardar" returnType="void" visibility="public" isStatic="true">
+          <Argument type="GestorDeColecciones" name="gestor"/>
+        </Method>
+        <Method name="cargar" returnType="GestorDeColecciones" visibility="public" isStatic="true"/>
+      </Methods>
+    </Class>
+    <Class name="Coordenadas" package="package_00" visibility="public" xPosition="592.0" yPosition="388.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
         <Field name="x" type="double" visibility="private"/>
         <Field name="y" type="double" visibility="private"/>
       </Fields>
@@ -75,7 +90,7 @@
         <Method name="getY" returnType="double" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="ExcedeCapacidadException" package="package_00" visibility="public" xPosition="1220.0" yPosition="20.0">
+    <Class name="ExcedeCapacidadException" package="package_00" visibility="public" xPosition="1514.0" yPosition="20.0">
       <Fields/>
       <Constructors>
         <Constructor visibility="public">
@@ -84,26 +99,19 @@
       </Constructors>
       <Methods/>
     </Class>
-    <Class name="Main" package="package_00" visibility="public" xPosition="1520.0" yPosition="20.0">
-      <Fields/>
-      <Constructors/>
-      <Methods>
-        <Method name="main" returnType="void" visibility="public" isStatic="true">
-          <Argument type="String[]" name="args"/>
-        </Method>
-      </Methods>
-    </Class>
-    <Class name="MenuInteractivo" package="package_00" visibility="public" xPosition="1820.0" yPosition="20.0">
+    <Class name="GestorDeColecciones" package="package_00" visibility="public" xPosition="1820.0" yPosition="39.0">
       <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
         <Field name="sedes" type="Vector&lt;Sede&gt;" visibility="private"/>
       </Fields>
       <Constructors>
+        <Constructor visibility="public"/>
         <Constructor visibility="public">
           <Argument type="Vector&lt;Sede&gt;" name="sedes"/>
         </Constructor>
       </Constructors>
       <Methods>
-        <Method name="leerEntradaUsuario" returnType="void" visibility="public"/>
+        <Method name="getSedes" returnType="Vector&lt;Sede&gt;" visibility="public"/>
         <Method name="agregarVotanteAMesa" returnType="void" visibility="public">
           <Argument type="Votante" name="votante"/>
           <Argument type="Mesa" name="mesa"/>
@@ -171,10 +179,38 @@
         <Method name="buscarSede" returnType="Sede" visibility="public">
           <Argument type="int" name="id"/>
         </Method>
+        <Method name="listarSedes" returnType="void" visibility="public">
+          <Argument type="Vector&lt;Sede&gt;" name="sedes"/>
+        </Method>
       </Methods>
     </Class>
-    <Class name="Mesa" package="package_00" visibility="public" xPosition="1908.0" yPosition="522.0">
+    <Class name="Main" package="package_00" visibility="public" xPosition="20.0" yPosition="134.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="MenuInteractivo" package="package_00" visibility="public" xPosition="20.0" yPosition="255.0">
       <Fields>
+        <Field name="sedes" type="Vector&lt;Sede&gt;" visibility="private"/>
+        <Field name="conteoVotos" type="HashMap&lt;String, Integer&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Vector&lt;Sede&gt;" name="sedes"/>
+          <Argument type="HashMap&lt;String, Integer&gt;" name="conteoVotos"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="leerEntradaUsuario" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Mesa" package="package_00" visibility="public" xPosition="1256.0" yPosition="559.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
         <Field name="numeroMesa" type="int" visibility="private"/>
         <Field name="capMax" type="int" visibility="private"/>
         <Field name="listaVotantes" type="ArrayList&lt;Votante&gt;" visibility="private"/>
@@ -215,8 +251,9 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="Sede" package="package_00" visibility="public" xPosition="31.0" yPosition="367.0">
+    <Class name="Sede" package="package_00" visibility="public" xPosition="75.0" yPosition="445.0">
       <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
         <Field name="id" type="int" visibility="private"/>
         <Field name="capMax" type="int" visibility="private"/>
         <Field name="cuposDisponibles" type="int" visibility="private"/>
@@ -268,7 +305,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="SistemaDeAsignacion" package="package_00" visibility="public" xPosition="291.0" yPosition="227.0">
+    <Class name="SistemaDeAsignacion" package="package_00" visibility="public" xPosition="780.0" yPosition="255.0">
       <Fields/>
       <Constructors/>
       <Methods>
@@ -282,15 +319,39 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="Ventana" package="package_00" visibility="public" xPosition="18.0" yPosition="176.0">
-      <Fields/>
-      <Constructors>
-        <Constructor visibility="public"/>
-      </Constructors>
-      <Methods/>
-    </Class>
-    <Class name="Votante" package="package_00" visibility="public" xPosition="885.0" yPosition="413.0">
+    <Class name="Ventana" package="package_00" visibility="public" xPosition="1836.0" yPosition="581.0">
       <Fields>
+        <Field name="areaTexto" type="JTextArea" visibility="private"/>
+        <Field name="panelSubOpciones" type="JPanel" visibility="private"/>
+        <Field name="gestor" type="GestorDeColecciones" visibility="private"/>
+        <Field name="sedes" type="Vector&lt;Sede&gt;" visibility="private"/>
+        <Field name="conteoVotos" type="HashMap&lt;String, Integer&gt;" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="GestorDeColecciones" name="gestor"/>
+          <Argument type="Vector&lt;Sede&gt;" name="sedes"/>
+          <Argument type="HashMap&lt;String, Integer&gt;" name="conteoVotos"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="crearPanelOpciones" returnType="JPanel" visibility="private"/>
+        <Method name="mostrarSubOpcionesVotantes" returnType="void" visibility="private"/>
+        <Method name="mostrarSubOpcionesMesas" returnType="void" visibility="private"/>
+        <Method name="mostrarSubOpcionesSedes" returnType="void" visibility="private"/>
+        <Method name="crearBoton" returnType="JButton" visibility="private">
+          <Argument type="String" name="texto"/>
+          <Argument type="Color" name="color"/>
+        </Method>
+        <Method name="crearBotonSub" returnType="JButton" visibility="private">
+          <Argument type="String" name="texto"/>
+          <Argument type="Color" name="color"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Votante" package="package_00" visibility="public" xPosition="1299.0" yPosition="160.0">
+      <Fields>
+        <Field name="serialVersionUID" type="long" visibility="private" isStatic="true" isFinal="true"/>
         <Field name="estadoVoto" type="boolean" visibility="private"/>
         <Field name="tieneMesa" type="boolean" visibility="private"/>
         <Field name="residencia" type="Coordenadas" visibility="private"/>
@@ -327,21 +388,25 @@
     </Class>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
-    <UseRelation source="package_00.Sede" target="package_00.Coordenadas" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="residencia" source="package_00.Votante" target="package_00.Coordenadas" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <HasRelation name="ubicacion" source="package_00.Sede" target="package_00.Coordenadas" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="listaVotantes" source="package_00.Mesa" target="package_00.Votante" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Votante&gt;"/>
+    <HasRelation name="residencia" source="package_00.Votante" target="package_00.Coordenadas" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="package_00.Votante" target="package_00.Sede" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <IsRelation name="is" source="package_00.Votante" target="package_00.Ciudadano"/>
+    <IsRelation name="is" source="package_00.Candidato" target="package_00.Ciudadano"/>
+    <UseRelation source="package_00.ControlPersistenciaDeDatos" target="package_00.GestorDeColecciones" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="package_00.SistemaDeAsignacion" target="package_00.Votante" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="sedes" source="package_00.GestorDeColecciones" target="package_00.Sede" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="sedes" source="package_00.Ventana" target="package_00.Sede" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <HasRelation name="sedes" source="package_00.MenuInteractivo" target="package_00.Sede" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation source="package_00.MenuInteractivo" target="package_00.Votante" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="package_00.Sede" target="package_00.Mesa" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="package_00.Sede" target="package_00.Coordenadas" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="package_00.GestorDeColecciones" target="package_00.Votante" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="package_00.GestorDeColecciones" target="package_00.Mesa" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="gestor" source="package_00.Ventana" target="package_00.GestorDeColecciones" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="package_00.GestorDeColecciones" target="package_00.Sede" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="mapaMesas" source="package_00.Sede" target="package_00.Mesa" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="HashMap&lt;Integer, Mesa&gt;"/>
     <UseRelation source="package_00.Votante" target="package_00.Coordenadas" sourceCardinality="1..1" targetCardinality="1..1"/>
     <UseRelation source="package_00.Mesa" target="package_00.Votante" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <IsRelation name="is" source="package_00.Candidato" target="package_00.Ciudadano"/>
-    <IsRelation name="is" source="package_00.Votante" target="package_00.Ciudadano"/>
-    <HasRelation name="mapaMesas" source="package_00.Sede" target="package_00.Mesa" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="HashMap&lt;Integer, Mesa&gt;"/>
-    <UseRelation source="package_00.Votante" target="package_00.Sede" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation source="package_00.MenuInteractivo" target="package_00.Mesa" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation source="package_00.Sede" target="package_00.Mesa" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="listaVotantes" source="package_00.Mesa" target="package_00.Votante" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="ArrayList&lt;Votante&gt;"/>
-    <UseRelation source="package_00.SistemaDeAsignacion" target="package_00.Votante" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <UseRelation source="package_00.MenuInteractivo" target="package_00.Sede" sourceCardinality="1..1" targetCardinality="1..1"/>
   </ClassDiagramRelations>
 </ClassDiagram>
