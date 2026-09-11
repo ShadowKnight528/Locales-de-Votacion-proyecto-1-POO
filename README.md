@@ -5,3 +5,5 @@ Instrucciones de uso:
 - Dentro del paquete importar las clases desde github
 - En el archivo module-info.java incluir la instrucción requires java.desktop;
 - Compilar y ejecutar el programa
+- El proyecto cuenta con una sede inicializada que tiene por ID el número 1
+- La sede por defecto cuenta a su vez con una mesa ya inicializada que tiene por número identificador el 101
