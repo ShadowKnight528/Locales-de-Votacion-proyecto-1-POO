@@ -1,10 +1,7 @@
 package package_00;
 
-import java.io.Serializable;
-
-public class Candidato extends Ciudadano implements Serializable {
+public class Candidato extends Ciudadano {
 	
-	private static final long serialVersionUID = 1L;
 	private String partido;
 	
 	public Candidato(String rut, String nombre, String partido) {
