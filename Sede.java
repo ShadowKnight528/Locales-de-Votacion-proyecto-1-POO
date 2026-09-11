@@ -13,12 +13,12 @@ import java.util.HashMap;
 
 public class Sede implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private int capMax;
 	private int cuposDisponibles;
 	private Coordenadas ubicacion;
 	private HashMap<Integer, Mesa> mapaMesas;
-	
 	public Sede(int id, int capMax, Coordenadas ubicacion) {
 		setId(id);
 		setCapMax(capMax);
