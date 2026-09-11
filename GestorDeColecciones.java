@@ -7,6 +7,7 @@ import java.util.Vector;
 
 public class GestorDeColecciones implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private Vector<Sede> sedes;
 	
 	public GestorDeColecciones() {
