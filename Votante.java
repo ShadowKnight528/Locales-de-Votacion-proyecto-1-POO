@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Votante extends Ciudadano implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private boolean estadoVoto;
 	private boolean tieneMesa;
 	private Coordenadas residencia;
