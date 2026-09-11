@@ -1,6 +1,6 @@
 package package_00;
+
 import java.util.HashMap;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /** 
@@ -13,9 +13,8 @@ import java.util.ArrayList;
  * que lleva dicho candidato
  */
 
-public class Mesa implements Serializable {
+public class Mesa {
 	
-	private static final long serialVersionUID = 1L;
 	private int numeroMesa;
 	private int capMax;
 	private ArrayList<Votante> listaVotantes;
