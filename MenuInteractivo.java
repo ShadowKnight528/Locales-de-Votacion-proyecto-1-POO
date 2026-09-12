@@ -231,8 +231,11 @@ public class MenuInteractivo {
     															System.out.println("Error al leer el rut, ingrese un String");
     															continue;
     														}
-    														if (gestor.buscarVotanteEnMesa(rut, mesaBuscarVotante) == null) {
+    														Votante buscado = gestor.buscarVotanteEnMesa(rut, mesaBuscarVotante);
+    														if (buscado == null) {
     															System.out.println("No se ha hallado el votante en la mesa solicitada");
+    														} else {
+    															System.out.println(buscado.obtenerDatos());
     														}
     													}
     													break;
