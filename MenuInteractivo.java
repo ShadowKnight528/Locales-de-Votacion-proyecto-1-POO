@@ -17,7 +17,7 @@ public class MenuInteractivo {
 		this.conteoVotos = conteoVotos;
 	}
 	
-    public void leerEntradaUsuario() throws IOException {
+    public void leerEntradaUsuario() throws IOException { //IOExpection debido a la entrada de los usuarios en distintas opciones
     	
         GestorDeColecciones gestor = new GestorDeColecciones(sedes);
     	BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
@@ -37,7 +37,7 @@ public class MenuInteractivo {
     		}
     		
     		switch(opcion) {
-    			case 1:
+    			case 1: //Entra modo consola
     				boolean modoConsolaActivado = true;
     				while (modoConsolaActivado) {
     					System.out.println("Seleccione un numero");
@@ -70,7 +70,7 @@ public class MenuInteractivo {
     								}
     								
     								switch(opcionGestion) {
-    									case 1:
+    									case 1: //Gestionar votantes
     										boolean modoGestorVotantes = true;
     										while (modoGestorVotantes) {
     											System.out.println("Seleccione un numero");
@@ -83,7 +83,7 @@ public class MenuInteractivo {
     											System.out.println("7 - Volver");
     											int opcionGestionVotantes = 0;
     											try {
-    												opcionGestionVotantes = Integer.parseInt(lector.readLine());
+    												opcionGestionVotantes = Integer.parseInt(lector.readLine()); //Transforma lo que ingreso el usuario a int.
     											} catch (IllegalArgumentException e) {
     												System.out.println("Debe ingresar un numero entero!");
     												continue;
@@ -103,20 +103,20 @@ public class MenuInteractivo {
     														}
     														esValidoID = true;
     													}
-    													Sede sede = gestor.buscarSede(idSede);
+    													Sede sede = gestor.buscarSede(idSede); // Busca la sede de acuerdo a su id
     													if (sede == null) {
     														System.out.println("El ID ingresado no corresponde una sede existente");
     														break;
     													} else {
     														System.out.println("Ingrese el numero de la mesa a la que desea agregar un votante");
-    														int numMesa = -1;
+    														int numMesa = -1; // Luego de ingresar la sede, pide la mesa.
     														try {
     															numMesa = Integer.parseInt(lector.readLine());
     														} catch (IllegalArgumentException e) {
     															System.out.println("Valor invalido, ingrese un numero entero!");
     															continue;
     														}
-    														Mesa mesaAgregarVotante = gestor.buscarMesaEnSede(numMesa, sede);
+    														Mesa mesaAgregarVotante = gestor.buscarMesaEnSede(numMesa, sede); //Busca la mesa donde se tiene que agregar el votante
     														if (mesaAgregarVotante == null) {
     															System.out.println("El numero de mesa ingresado no se halla registrado dentro de la sede seleccionada");
     															break;
@@ -155,9 +155,9 @@ public class MenuInteractivo {
     																continue;
     															}
     															Coordenadas residenciaVotanteAgregado = new Coordenadas(xComponent, yComponent);
-    															Votante votanteAgregado = new Votante(rut, nombre, residenciaVotanteAgregado);
+    															Votante votanteAgregado = new Votante(rut, nombre, residenciaVotanteAgregado); //Crea al votante con las especificaciones
     															try {
-    																mesaAgregarVotante.agregarVotante(votanteAgregado);
+    																mesaAgregarVotante.agregarVotante(votanteAgregado); // Agrega el votante
     															} catch (ExcedeCapacidadException e) {
     																System.out.println(e.getMessage());
     																break;
@@ -171,14 +171,14 @@ public class MenuInteractivo {
     													while(!esValidoID) {
     														System.out.println("Ingrese el ID de la sede a la que pertenece la mesa de la cual desea observar la lista de votantes");
     														try {
-    															idSede = Integer.parseInt(lector.readLine());
+    															idSede = Integer.parseInt(lector.readLine()); //Lee el id de la sede deseada 
     														} catch (IllegalArgumentException e) {
     															System.out.println("Valor invalido, ingrese un numero entero!");
     															continue;
     														}
     														esValidoID = true;
     													}
-    													sede = gestor.buscarSede(idSede);
+    													sede = gestor.buscarSede(idSede); // Busca la sede
     													if (sede == null) {
     														System.out.println("El ID ingresado no corresponde una sede existente");
     														break;
@@ -192,7 +192,7 @@ public class MenuInteractivo {
     															continue;
     														}
     														Mesa mesaAListarVotantes = gestor.buscarMesaEnSede(numMesa, sede);
-    														gestor.listarVotantesMesa(mesaAListarVotantes);
+    														gestor.listarVotantesMesa(mesaAListarVotantes); //Lista los votantes luego de comprobar que la mesa existia
     													}
     														
     													break;
@@ -207,9 +207,9 @@ public class MenuInteractivo {
     															System.out.println("Valor invalido, ingrese un numero entero!");
     															continue;
     														}
-    														esValidoID = true;
+    														esValidoID = true; // Valida la id de la sede
     													}
-    													sede = gestor.buscarSede(idSede);
+    													sede = gestor.buscarSede(idSede); // Busca la sede
     													if (sede == null) {
     														System.out.println("El ID ingresado no corresponde una sede existente");
     														break;
@@ -222,7 +222,7 @@ public class MenuInteractivo {
     															System.out.println("Valor invalido, ingrese un numero entero!");
     															continue;
     														}
-    														Mesa mesaBuscarVotante = gestor.buscarMesaEnSede(numMesa, sede);
+    														Mesa mesaBuscarVotante = gestor.buscarMesaEnSede(numMesa, sede); // Busca la mesa
     														System.out.println("Ingrese el RUT del votante que desea buscar en la mesa");
     														String rut = null;
     														try {
@@ -811,16 +811,16 @@ public class MenuInteractivo {
     				
     				break;
     			case 2:
-    				javax.swing.SwingUtilities.invokeLater(() -> {
+    				javax.swing.SwingUtilities.invokeLater(() -> { //Llama a la ventana en el caso de que se presione la opcion 2.
     					Ventana ventanaPrincipal = new Ventana(gestor, sedes, conteoVotos);
     					ventanaPrincipal.setLocationRelativeTo(null);
     					ventanaPrincipal.setVisible(true);
     				});
     				break;
-    			case 3:
+    			case 3: //Acaba el sistema
     				System.out.println("Hasta luego!");
     				return;
-    			default:
+    			default: //Error por si coloca un numero que no es una opcion
     				System.out.println("La opción ingresada no es valida, intente ingresando 1 o 2");
     				continue;
     		}
