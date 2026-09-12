@@ -16,11 +16,17 @@ public class Ventana extends JFrame {
     private GestorDeColecciones gestor;
     private Vector<Sede> sedes;
     private HashMap<String, Integer> conteoVotos;
-
+    /**
+     * 
+     * @param gestor se usa para el manejo de los datos
+     * @param sedes se necesita para inicializar el gestor como corresponde
+     * @param conteoVotos para calcular los votos totales y sacar un resultado.
+     */
     public Ventana(GestorDeColecciones gestor, Vector<Sede> sedes, HashMap<String, Integer> conteoVotos) {
         this.gestor = gestor;
         this.sedes = sedes;
         this.conteoVotos = conteoVotos;
+        // Funciones para que la ventana abra, definir tam, y que se cierre la ejecucion al momento de cerrar la ventana
         this.setSize(700, 600);
         this.setTitle("Ventana con Opciones");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -29,13 +35,14 @@ public class Ventana extends JFrame {
 
         JPanel panelOpciones = crearPanelOpciones();
         add(panelOpciones, BorderLayout.NORTH);
-
+        
+        // Agrega las distintas opciones luego de elegir ya una opcion
         panelSubOpciones = new JPanel();
         panelSubOpciones.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         panelSubOpciones.setBorder(BorderFactory.createTitledBorder("Subopciones"));
         panelSubOpciones.setBackground(new Color(240, 248, 255));
         add(panelSubOpciones, BorderLayout.CENTER);
-
+        // Para que cada boton tenga su texto designado
         areaTexto = new JTextArea();
         areaTexto.setEditable(false);
         areaTexto.setFont(new Font("Monospaced", Font.PLAIN, 13));
@@ -50,11 +57,14 @@ public class Ventana extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        JButton gestionVotantes = crearBoton("Gestion de Votantes", new Color(70, 130, 180));
-        JButton gestionMesas = crearBoton("Gestion de Mesas", new Color(60, 179, 113));
-        JButton gestionSedes = crearBoton("Gestion de Sedes", new Color(255, 140, 0));
-        JButton btnGuardar = crearBoton("Guardar Datos", new Color(128, 0, 128));
+        /**
+        * Crea las opciones principales, cada gestion llama al metodo de sus subopciones correspondientes
+        * Boton de guardar, es para ir actualizando los datos segun hacemos las acciones
+        */
+        JButton gestionVotantes = crearBoton("Gestion de Votantes", new Color(245, 196, 113));
+        JButton gestionMesas = crearBoton("Gestion de Mesas", new Color(62, 96, 163));
+        JButton gestionSedes = crearBoton("Gestion de Sedes", new Color(245, 196, 113));
+        JButton btnGuardar = crearBoton("Guardar Datos", new Color(75, 128, 64));
         JButton btnLimpiar = crearBoton("Limpiar", Color.RED);
 
         gestionVotantes.addActionListener(e -> mostrarSubOpcionesVotantes());
@@ -96,15 +106,20 @@ public class Ventana extends JFrame {
         panelSubOpciones.removeAll();
         panelSubOpciones.setBorder(BorderFactory.createTitledBorder("Subopciones - Opción 1"));
 
-        JButton agregarVotante = crearBotonSub("Agregar votante", new Color(70, 130, 180));
-        JButton listarVotantesAsigMesa = crearBotonSub("Listar votantes asignados a una mesa", new Color(70, 130, 180));
-        JButton buscarVotanteMesa = crearBotonSub("Buscar un votante en una mesa", new Color(70, 130, 180));
-        JButton eliminarVotanteAsigMesa = crearBotonSub("Eliminar la asignacion de un votante a una mesa", new Color(70, 130, 180));
-        JButton modificarVotanteNombre = crearBotonSub("Modificar el nombre de un votante", new Color(70, 130, 180));
-        JButton modificarVotanteDomicilio = crearBotonSub("Modificar el domicilio de un votante", new Color(70, 130, 180));
+        JButton agregarVotante = crearBotonSub("Agregar votante", new Color(245, 196, 113));
+        JButton listarVotantesAsigMesa = crearBotonSub("Listar votantes asignados a una mesa", new Color(245, 196, 113));
+        JButton buscarVotanteMesa = crearBotonSub("Buscar un votante en una mesa", new Color(245, 196, 113));
+        JButton eliminarVotanteAsigMesa = crearBotonSub("Eliminar la asignacion de un votante a una mesa", new Color(245, 196, 113));
+        JButton modificarVotanteNombre = crearBotonSub("Modificar el nombre de un votante", new Color(245, 196, 113));
+        JButton modificarVotanteDomicilio = crearBotonSub("Modificar el domicilio de un votante", new Color(245, 196, 113));
         JButton btnVolver = crearBotonSub("⬅ Volver", Color.GRAY);
 
         agregarVotante.addActionListener(e -> {
+            /**
+             * Hace las mismas acciones que el caso del menu interactivo, cambia algunos elementos de logica y especialmente
+             * de lector del teclado del usuario, por opciones de la clase JFRAME, pasa lo mismo con todas las subopciones
+             * dependiendo claramente del modo de gestion (votante, mesa, sede) y la subopcion elegida
+             */
             boolean esValidoID = false;
             int idSede = -1;
             while (!esValidoID) {
@@ -795,11 +810,11 @@ public class Ventana extends JFrame {
         panelSubOpciones.removeAll();
         panelSubOpciones.setBorder(BorderFactory.createTitledBorder("Subopciones - Opción 2"));
 
-        JButton agregarMeseASede = crearBotonSub("Agregar mesa a sede", new Color(60, 179, 113));
-        JButton listarMesasDeSede = crearBotonSub("Listar mesas de una sede", new Color(60, 179, 113));
-        JButton buscarMesa = crearBotonSub("Buscar una mesa", new Color(60, 179, 113));
-        JButton retirarMesaSede = crearBotonSub("Retirar mesas de una sede", new Color(60, 179, 113));
-        JButton modificarCapMaxMesa = crearBotonSub("Modificar la cantidad maxima de votantes en una mesa", new Color(60, 179, 113));
+        JButton agregarMeseASede = crearBotonSub("Agregar mesa a sede", new Color(62, 96, 163));
+        JButton listarMesasDeSede = crearBotonSub("Listar mesas de una sede", new Color(62, 96, 163));
+        JButton buscarMesa = crearBotonSub("Buscar una mesa", new Color(62, 96, 163));
+        JButton retirarMesaSede = crearBotonSub("Retirar mesas de una sede", new Color(62, 96, 163));
+        JButton modificarCapMaxMesa = crearBotonSub("Modificar la cantidad maxima de votantes en una mesa", new Color(62, 96, 163));
         JButton btnVolver = crearBotonSub("⬅ Volver", Color.GRAY);
 
         agregarMeseASede.addActionListener(e -> {
@@ -1157,8 +1172,8 @@ public class Ventana extends JFrame {
         panelSubOpciones.removeAll();
         panelSubOpciones.setBorder(BorderFactory.createTitledBorder("Subopciones - Opción 3"));
 
-        JButton buscarSedeId = crearBotonSub("Buscar una sede por su id", new Color(255, 140, 0));
-        JButton listarSedes = crearBotonSub("Listar sedes", new Color(255, 140, 0));
+        JButton buscarSedeId = crearBotonSub("Buscar una sede por su id", new Color(245, 196, 113));
+        JButton listarSedes = crearBotonSub("Listar sedes", new Color(245, 196, 113));
         JButton btnVolver = crearBotonSub("⬅ Volver", Color.GRAY);
 
         buscarSedeId.addActionListener(e -> {
@@ -1223,7 +1238,9 @@ public class Ventana extends JFrame {
         panelSubOpciones.revalidate();
         panelSubOpciones.repaint();
     }
-
+    /**
+     * Son las funciones para crear los botones, asignarles el color, letra y dimension respectiva
+     */
     private JButton crearBoton(String texto, Color color) {
         JButton boton = new JButton(texto);
         boton.setBackground(color);
@@ -1231,7 +1248,7 @@ public class Ventana extends JFrame {
         boton.setFont(new Font("Arial", Font.BOLD, 14));
         boton.setPreferredSize(new Dimension(150, 45));
         boton.setFocusPainted(false);
-        boton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
+        boton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         return boton;
     }
 
@@ -1242,7 +1259,7 @@ public class Ventana extends JFrame {
         boton.setFont(new Font("Arial", Font.BOLD, 13));
         boton.setPreferredSize(new Dimension(160, 40));
         boton.setFocusPainted(false);
-        boton.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 1));
+        boton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         return boton;
     }
 }
