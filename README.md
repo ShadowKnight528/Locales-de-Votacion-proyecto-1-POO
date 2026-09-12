@@ -14,4 +14,4 @@ Instrucciones de uso:
 - Al ingresar el número correspondiente a la opción de salir los cambios se guardaran en el csv
 - En el caso de elegir el modo ventana es importante apretar el botón que dice guardar datos para guardar los cambios en el csv
 
-  Nota: El proyecto se probo en Eclipse y en NetBeans 8.0.2 (el mismo que se encuentra disponible en el aula virtual)
+Nota: El programa se probo en Eclipse y en NetBeans 8.0.2 (el mismo que se encuentra disponible en el aula virtual)
