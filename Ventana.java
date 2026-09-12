@@ -223,10 +223,7 @@ public class Ventana extends JFrame {
             boolean esValidoID = false;
             int idSede = -1;
             while (!esValidoID) {
-                String input = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el ID de la sede a la que pertenece la mesa de la cual desea observar la lista de votantes"
-                );
+                String input = JOptionPane.showInputDialog(this,"Ingrese el ID de la sede a la que pertenece la mesa de la cual desea observar la lista de votantes");
                 if (input == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -245,10 +242,7 @@ public class Ventana extends JFrame {
                 areaTexto.append("El ID ingresado no corresponde una sede existente\n");
                 return;
             } else {
-                String inputMesa = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el numero de la mesa que desea visualizar su lista de votantes"
-                );
+                String inputMesa = JOptionPane.showInputDialog(this, "Ingrese el numero de la mesa que desea visualizar su lista de votantes");
                 if (inputMesa == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -286,10 +280,7 @@ public class Ventana extends JFrame {
             boolean esValidoID = false;
             int idSede = -1;
             while (!esValidoID) {
-                String input = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el ID de la sede a la que pertenece la mesa en la que desea buscar un votante"
-                );
+                String input = JOptionPane.showInputDialog( this,"Ingrese el ID de la sede a la que pertenece la mesa en la que desea buscar un votante");
                 if (input == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -300,18 +291,15 @@ public class Ventana extends JFrame {
                     areaTexto.append("Valor invalido, ingrese un numero entero!\n");
                     continue;
                 }
-                esValidoID = true;
+                esValidoID = true; // Valida la id de la sede
             }
 
-            Sede sede = gestor.buscarSede(idSede);
+            Sede sede = gestor.buscarSede(idSede); // Busca la sede
             if (sede == null) {
                 areaTexto.append("El ID ingresado no corresponde una sede existente\n");
                 return;
             } else {
-                String inputMesa = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el numero de la mesa en la que desea buscar un votante"
-                );
+                String inputMesa = JOptionPane.showInputDialog(this, "Ingrese el numero de la mesa en la que desea buscar un votante");
                 if (inputMesa == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -324,22 +312,19 @@ public class Ventana extends JFrame {
                     return;
                 }
 
-                Mesa mesaBuscarVotante = gestor.buscarMesaEnSede(numMesa, sede);
+                Mesa mesaBuscarVotante = gestor.buscarMesaEnSede(numMesa, sede); // Busca la mesa
 
-                String rut = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el RUT del votante que desea buscar en la mesa"
-                );
+                String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del votante que desea buscar en la mesa");
                 if (rut == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
                 }
 
-                Votante votante = gestor.buscarVotanteEnMesa(rut, mesaBuscarVotante);
-                if (votante == null) {
+                Votante buscado = gestor.buscarVotanteEnMesa(rut, mesaBuscarVotante);
+                if (buscado == null) {
                     areaTexto.append("No se ha hallado el votante en la mesa solicitada\n");
                 } else {
-                    areaTexto.append("Votante encontrado: " + votante + "\n");
+                    areaTexto.append(buscado.obtenerDatos() + "\n");
                 }
             }
         });
@@ -348,10 +333,7 @@ public class Ventana extends JFrame {
             boolean esValidoID = false;
             int idSede = -1;
             while (!esValidoID) {
-                String input = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el ID de la sede a la que pertenece la mesa de la que desea eliminar un votante"
-                );
+                String input = JOptionPane.showInputDialog(this, "Ingrese el ID de la sede a la que pertenece la mesa de la que desea eliminar un votante");
                 if (input == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -370,10 +352,7 @@ public class Ventana extends JFrame {
                 areaTexto.append("El ID ingresado no corresponde una sede existente\n");
                 return;
             } else {
-                String inputMesa = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el numero de la mesa de la que desea eliminar un votante"
-                );
+                String inputMesa = JOptionPane.showInputDialog(this, "Ingrese el numero de la mesa de la que desea eliminar un votante");
                 if (inputMesa == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -388,10 +367,7 @@ public class Ventana extends JFrame {
 
                 Mesa mesaQuitarVotante = gestor.buscarMesaEnSede(numMesa, sede);
 
-                String rut = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el RUT del votante que desea eliminar"
-                );
+                String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del votante que desea eliminar");
                 if (rut == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -405,10 +381,7 @@ public class Ventana extends JFrame {
             boolean esValidoID = false;
             int idSede = -1;
             while (!esValidoID) {
-                String input = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el ID de la sede a la que pertenece la mesa del votante que desea modificar su nombre"
-                );
+                String input = JOptionPane.showInputDialog(this, "Ingrese el ID de la sede a la que pertenece la mesa del votante que desea modificar su nombre");
                 if (input == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -427,10 +400,7 @@ public class Ventana extends JFrame {
                 areaTexto.append("El ID ingresado no corresponde una sede existente\n");
                 return;
             } else {
-                String inputMesa = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el numero de la mesa del votante que desea modificar su nombre"
-                );
+                String inputMesa = JOptionPane.showInputDialog(this, "Ingrese el numero de la mesa del votante que desea modificar su nombre");
                 if (inputMesa == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -445,19 +415,13 @@ public class Ventana extends JFrame {
 
                 Mesa mesaModificarVotante = gestor.buscarMesaEnSede(numMesa, sede);
 
-                String rut = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el RUT del votante que desea modificar su nombre"
-                );
+                String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del votante que desea modificar su nombre");
                 if (rut == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
                 }
 
-                String nuevo = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el nuevo nombre del votante"
-                );
+                String nuevo = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre del votante");
                 if (nuevo == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -468,14 +432,8 @@ public class Ventana extends JFrame {
                     String[] opciones = {"1 - Modificar el nombre por RUT y mesa",
                         "2 - Modificar el nombre desde el votante",
                         "3 - Volver"};
-                    String seleccion = (String) JOptionPane.showInputDialog(
-                            this,
-                            "Seleccione una opción:",
-                            "Modificar nombre de votante",
-                            JOptionPane.QUESTION_MESSAGE,
-                            null,
-                            opciones,
-                            opciones[0]
+                    String seleccion = (String) JOptionPane.showInputDialog(this, "Seleccione una opción:", "Modificar nombre de votante", JOptionPane.QUESTION_MESSAGE,
+                            null, opciones, opciones[0]
                     );
                     if (seleccion == null) {
                         areaTexto.append("Operación cancelada\n");
@@ -516,10 +474,7 @@ public class Ventana extends JFrame {
             boolean esValidoID = false;
             int idSede = -1;
             while (!esValidoID) {
-                String input = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el ID de la sede a la que pertenece la mesa del votante que desea modificar su domicilio"
-                );
+                String input = JOptionPane.showInputDialog(this, "Ingrese el ID de la sede a la que pertenece la mesa del votante que desea modificar su domicilio");
                 if (input == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -538,10 +493,7 @@ public class Ventana extends JFrame {
                 areaTexto.append("El ID ingresado no corresponde una sede existente\n");
                 return;
             } else {
-                String inputMesa = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el numero de la mesa del votante que desea modificar su domicilio"
-                );
+                String inputMesa = JOptionPane.showInputDialog(this, "Ingrese el numero de la mesa del votante que desea modificar su domicilio");
                 if (inputMesa == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -556,10 +508,7 @@ public class Ventana extends JFrame {
 
                 Mesa mesaModificarVotante = gestor.buscarMesaEnSede(numMesa, sede);
 
-                String rut = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el RUT del votante que desea modificar su domicilio"
-                );
+                String rut = JOptionPane.showInputDialog(this, "Ingrese el RUT del votante que desea modificar su domicilio");
                 if (rut == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -572,17 +521,13 @@ public class Ventana extends JFrame {
                         "2 - Modificar el domicilio usando el rut y la mesa del votante",
                         "3 - Volver"
                     };
-                    String seleccion = (String) JOptionPane.showInputDialog(
-                            this,
-                            "Ingrese un numero\n"
+                    String seleccion = (String) JOptionPane.showInputDialog(this, "Ingrese un numero\n"
                             + "1 - Modificar el domicilio a traves del mismo votante\n"
                             + "2 - Modificar el domicilio usando el rut y la mesa del votante\n"
                             + "3 - Volver",
                             "Modificar domicilio",
                             JOptionPane.QUESTION_MESSAGE,
-                            null,
-                            opcionesMenu,
-                            opcionesMenu[0]
+                            null, opcionesMenu, opcionesMenu[0]
                     );
                     if (seleccion == null) {
                         areaTexto.append("Operación cancelada\n");
@@ -609,10 +554,7 @@ public class Ventana extends JFrame {
                             xComponent = 0.0;
                             yComponent = 0.0;
 
-                            String inputX1 = JOptionPane.showInputDialog(
-                                    this,
-                                    "Ingrese la componente x de la nueva ubicacion"
-                            );
+                            String inputX1 = JOptionPane.showInputDialog(this, "Ingrese la componente x de la nueva ubicacion");
                             if (inputX1 == null) {
                                 areaTexto.append("Operación cancelada\n");
                                 return;
@@ -624,10 +566,7 @@ public class Ventana extends JFrame {
                                 continue;
                             }
 
-                            String inputY1 = JOptionPane.showInputDialog(
-                                    this,
-                                    "Ingrese la componente y de la nueva ubicacion"
-                            );
+                            String inputY1 = JOptionPane.showInputDialog(this, "Ingrese la componente y de la nueva ubicacion");
                             if (inputY1 == null) {
                                 areaTexto.append("Operación cancelada\n");
                                 return;
@@ -645,17 +584,13 @@ public class Ventana extends JFrame {
                                     "2 - Modificar el domicilio usando las compenentes x e y de forma independiente",
                                     "3 - Volver"
                                 };
-                                String selCoord = (String) JOptionPane.showInputDialog(
-                                        this,
-                                        "Ingrese un numero\n"
+                                String selCoord = (String) JOptionPane.showInputDialog(this, "Ingrese un numero\n"
                                         + "1 - Modificar el domicilio usando la ubicacion concreta\n"
                                         + "2 - Modificar el domicilio usando las compenentes x e y de forma independiente\n"
                                         + "3 - Volver",
                                         "Modificar domicilio",
                                         JOptionPane.QUESTION_MESSAGE,
-                                        null,
-                                        opcionesCoord,
-                                        opcionesCoord[0]
+                                        null, opcionesCoord, opcionesCoord[0]
                                 );
                                 if (selCoord == null) {
                                     areaTexto.append("Operación cancelada\n");
@@ -696,10 +631,7 @@ public class Ventana extends JFrame {
                             xComponent = 0.0;
                             yComponent = 0.0;
 
-                            String inputX2 = JOptionPane.showInputDialog(
-                                    this,
-                                    "Ingrese la componente x de la nueva ubicacion"
-                            );
+                            String inputX2 = JOptionPane.showInputDialog(this, "Ingrese la componente x de la nueva ubicacion");
                             if (inputX2 == null) {
                                 areaTexto.append("Operación cancelada\n");
                                 return;
@@ -711,10 +643,7 @@ public class Ventana extends JFrame {
                                 continue;
                             }
 
-                            String inputY2 = JOptionPane.showInputDialog(
-                                    this,
-                                    "Ingrese la componente y de la nueva ubicacion"
-                            );
+                            String inputY2 = JOptionPane.showInputDialog(this, "Ingrese la componente y de la nueva ubicacion");
                             if (inputY2 == null) {
                                 areaTexto.append("Operación cancelada\n");
                                 return;
@@ -732,17 +661,13 @@ public class Ventana extends JFrame {
                                     "2 - Modificar el domicilio usando las compenentes x e y de forma independiente",
                                     "3 - Volver"
                                 };
-                                String selCoord = (String) JOptionPane.showInputDialog(
-                                        this,
-                                        "Ingrese un numero\n"
+                                String selCoord = (String) JOptionPane.showInputDialog(this, "Ingrese un numero\n"
                                         + "1 - Modificar el domicilio usando la ubicacion concreta\n"
                                         + "2 - Modificar el domicilio usando las compenentes x e y de forma independiente\n"
                                         + "3 - Volver",
                                         "Modificar domicilio",
                                         JOptionPane.QUESTION_MESSAGE,
-                                        null,
-                                        opcionesCoord,
-                                        opcionesCoord[0]
+                                        null, opcionesCoord, opcionesCoord[0]
                                 );
                                 if (selCoord == null) {
                                     areaTexto.append("Operación cancelada\n");
@@ -826,10 +751,7 @@ public class Ventana extends JFrame {
             int capMaxMesa = 0;
 
             while (!esValidoID) {
-                String input = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el ID de la sede a la desea agregar una mesa"
-                );
+                String input = JOptionPane.showInputDialog(this, "Ingrese el ID de la sede a la desea agregar una mesa");
                 if (input == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -850,10 +772,7 @@ public class Ventana extends JFrame {
             }
 
             while (!esValidoNumMesa) {
-                String input = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese un numero de mesa"
-                );
+                String input = JOptionPane.showInputDialog(this,"Ingrese un numero de mesa");
                 if (input == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -868,10 +787,7 @@ public class Ventana extends JFrame {
             }
 
             while (!esValidaCapMax) {
-                String input = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese la capacidad maxima de la mesa que desea agregar"
-                );
+                String input = JOptionPane.showInputDialog(this, "Ingrese la capacidad maxima de la mesa que desea agregar");
                 if (input == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -893,10 +809,7 @@ public class Ventana extends JFrame {
             boolean esValidoID = false;
             int idSede = -1;
             while (!esValidoID) {
-                String input = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el ID de la sede donde se encuentran las mesas que desea listar"
-                );
+                String input = JOptionPane.showInputDialog(this, "Ingrese el ID de la sede donde se encuentran las mesas que desea listar");
                 if (input == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -916,9 +829,6 @@ public class Ventana extends JFrame {
                 return;
             }
 
-            // ============================================================
-            // REDIRIGIR System.out PARA CAPTURAR LA SALIDA DEL MÉTODO
-            // ============================================================
             PrintStream originalOut = System.out;
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             PrintStream printStream = new PrintStream(baos);
@@ -945,10 +855,7 @@ public class Ventana extends JFrame {
             int numMesaBuscada = 0;
 
             while (!esValidoID) {
-                String input = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el ID de la sede en la que desea buscar una mesa"
-                );
+                String input = JOptionPane.showInputDialog(this,"Ingrese el ID de la sede en la que desea buscar una mesa");
                 if (input == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -969,10 +876,7 @@ public class Ventana extends JFrame {
             }
 
             while (!esValidoNumMesa) {
-                String input = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese un numero de mesa"
-                );
+                String input = JOptionPane.showInputDialog(this, "Ingrese un numero de mesa");
                 if (input == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -1026,10 +930,7 @@ public class Ventana extends JFrame {
             int numMesaAQuitar = 0;
 
             while (!esValidoID) {
-                String input = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el ID de la sede en la que se encuentra la mesa que desea eliminar"
-                );
+                String input = JOptionPane.showInputDialog(this, "Ingrese el ID de la sede en la que se encuentra la mesa que desea eliminar");
                 if (input == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -1050,10 +951,7 @@ public class Ventana extends JFrame {
             }
 
             while (!esValidoNumMesa) {
-                String input = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese un numero de mesa"
-                );
+                String input = JOptionPane.showInputDialog(this, "Ingrese un numero de mesa");
                 if (input == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -1083,10 +981,7 @@ public class Ventana extends JFrame {
             int numMesaAModificar = 0;
 
             while (!esValidoID) {
-                String input = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese el ID de la sede en la que se encuentra la mesa cuya capacidad maxima desea modificar"
-                );
+                String input = JOptionPane.showInputDialog(this, "Ingrese el ID de la sede en la que se encuentra la mesa cuya capacidad maxima desea modificar");
                 if (input == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -1107,10 +1002,7 @@ public class Ventana extends JFrame {
             }
 
             while (!esValidoNumMesa) {
-                String input = JOptionPane.showInputDialog(
-                        this,
-                        "Ingrese un numero de mesa"
-                );
+                String input = JOptionPane.showInputDialog(this, "Ingrese un numero de mesa");
                 if (input == null) {
                     areaTexto.append("Operación cancelada\n");
                     return;
@@ -1131,10 +1023,7 @@ public class Ventana extends JFrame {
                 esValidaCapMax = false;
                 int nuevaCapMax = 0;
                 while (!esValidaCapMax) {
-                    String input = JOptionPane.showInputDialog(
-                            this,
-                            "Ingrese la nueva capacidad maxima de la mesa"
-                    );
+                    String input = JOptionPane.showInputDialog(this, "Ingrese la nueva capacidad maxima de la mesa");
                     if (input == null) {
                         areaTexto.append("Operación cancelada\n");
                         return;
@@ -1179,10 +1068,7 @@ public class Ventana extends JFrame {
         buscarSedeId.addActionListener(e -> {
             int idSedeBuscada = 0;
 
-            String input = JOptionPane.showInputDialog(
-                    this,
-                    "Ingrese el ID de la sede que busca"
-            );
+            String input = JOptionPane.showInputDialog(this, "Ingrese el ID de la sede que busca");
             if (input == null) {
                 areaTexto.append("Operación cancelada\n");
                 return;
